@@ -1,10 +1,16 @@
 // GA4 Auto-Initialization System
 import { GA4_CONFIG, GA4_CUSTOM_DIMENSIONS, GA4_EVENTS } from './ga4-config.js';
 
+type GtagArgs = [
+  command: 'js' | 'config' | 'event',
+  targetId?: string | Date,
+  config?: Record<string, unknown>
+];
+
 declare global {
   interface Window {
-    gtag: (...args: any[]) => void;
-    dataLayer: any[];
+    gtag: (...args: GtagArgs) => void;
+    dataLayer: unknown[];
   }
 }
 
@@ -56,8 +62,8 @@ export class GA4Analytics {
       
       // dataLayer 초기화
       window.dataLayer = window.dataLayer || [];
-      window.gtag = function(): void {
-        window.dataLayer.push(arguments);
+      window.gtag = (...args: GtagArgs): void => {
+        window.dataLayer.push(args);
       };
 
       // GA4 설정
@@ -106,7 +112,7 @@ export class GA4Analytics {
     });
   }
 
-  public trackPageView(customProps?: Record<string, any>): void {
+  public trackPageView(customProps?: Record<string, unknown>): void {
     if (!this.isInitialized || !GA4_CONFIG.enabled) return;
 
     const pageData = {
@@ -139,7 +145,7 @@ export class GA4Analytics {
     }
   }
 
-  public trackEvent(eventName: string, parameters?: Record<string, any>): void {
+  public trackEvent(eventName: string, parameters?: Record<string, unknown>): void {
     if (!this.isInitialized || !GA4_CONFIG.enabled) return;
 
     const eventData = {
@@ -154,14 +160,14 @@ export class GA4Analytics {
     }
   }
 
-  public trackFeatureClick(featureName: string, additionalData?: Record<string, any>): void {
+  public trackFeatureClick(featureName: string, additionalData?: Record<string, unknown>): void {
     this.trackEvent(GA4_EVENTS.FEATURE_CLICK, {
       feature_name: featureName,
       ...additionalData,
     });
   }
 
-  public trackNavigation(destination: string, method: string = 'click'): void {
+  public trackNavigation(destination: string, method = 'click'): void {
     this.trackEvent(GA4_EVENTS.NAVIGATION_CLICK, {
       destination,
       method,
