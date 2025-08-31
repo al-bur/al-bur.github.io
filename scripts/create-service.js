@@ -215,11 +215,11 @@ async function createService() {
         'url-shortener': 'Create short, memorable URLs for your links with detailed analytics.',
         'password-generator': 'Generate strong, secure passwords with customizable options.'
       };
-      return descriptions[serviceName] || \`\${serviceName.charAt(0).toUpperCase() + serviceName.slice(1).replace('-', ' ')} - A powerful online utility tool designed for productivity and ease of use.\`;
+      return descriptions[serviceName] || `${serviceName.charAt(0).toUpperCase() + serviceName.slice(1).replace('-', ' ')} - A powerful online utility tool designed for productivity and ease of use.`;
     }
 
     // CSS 템플릿 생성 (SEO 최적화 및 접근성)
-    const cssTemplate = \`/* Reset and Base Styles */
+    const cssTemplate = `/* Reset and Base Styles */
 * {
     margin: 0;
     padding: 0;
@@ -453,21 +453,21 @@ body {
     .feature-card {
         padding: 1.5rem;
     }
-}\`;
+}`;
 
     // TypeScript 템플릿 생성
     const tsTemplate = `console.log('${serviceName} 서비스가 로드되었습니다.');
 
 // 서비스별 기능을 여기에 구현
-document.addEventListener('DOMContentLoaded', function(): void {
+document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM이 로드되었습니다.');
     
     // 예제: 기능 카드 클릭 이벤트
-    const featureCards = document.querySelectorAll<HTMLElement>('.feature-card');
+    const featureCards = document.querySelectorAll('.feature-card');
     
-    featureCards.forEach((card: HTMLElement, index: number) => {
-        card.addEventListener('click', function(): void {
-            alert(\`기능 \${index + 1}을 클릭했습니다!\`);
+    featureCards.forEach((card, index) => {
+        card.addEventListener('click', function() {
+            alert('기능 ' + (index + 1) + '을 클릭했습니다!');
         });
         
         card.style.cursor = 'pointer';

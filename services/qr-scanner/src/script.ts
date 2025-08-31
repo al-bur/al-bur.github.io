@@ -1,4 +1,6 @@
-declare const ZXing: any;
+declare const ZXing: {
+    BrowserMultiFormatReader: any;
+};
 
 interface ScanResult {
     text: string;
@@ -8,7 +10,7 @@ interface ScanResult {
 class QRScannerApp {
     private currentScreen = 'welcome';
     private scanMode: 'camera' | 'file' = 'camera';
-    private codeReader: any = null;
+    private codeReader: any = null; // ZXing library type not available
     private stream: MediaStream | null = null;
     private lastResult: ScanResult | null = null;
 
@@ -187,7 +189,7 @@ class QRScannerApp {
             }
 
             // Prefer back camera
-            const backCamera = videoDevices.find((device: any) => 
+            const backCamera = videoDevices.find((device: MediaDeviceInfo) => 
                 device.label.toLowerCase().includes('back') || 
                 device.label.toLowerCase().includes('rear')
             );
@@ -201,7 +203,7 @@ class QRScannerApp {
                 await this.codeReader.decodeFromVideoDevice(
                     selectedDevice.deviceId,
                     videoElement,
-                    (result: any, error: any) => {
+                    (result: any, error: any) => { // ZXing callback types not available
                         if (result) {
                             this.handleScanResult(result.getText());
                         }

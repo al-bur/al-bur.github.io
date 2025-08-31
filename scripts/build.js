@@ -60,7 +60,7 @@ async function buildService(serviceName) {
     console.log(`🔄 ${serviceName}: Vite 빌드 중...`);
     try {
       // Vite build command 실행
-      execSync(`pnpm run build`, {
+      execSync("pnpm run build", {
         stdio: "inherit",
         cwd: path.join(process.cwd(), "services", serviceName),
       });
