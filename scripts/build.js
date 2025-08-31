@@ -196,7 +196,9 @@ function getServiceDescription(serviceName) {
   };
   return (
     descriptions[serviceName] ||
-    `${serviceName.charAt(0).toUpperCase() + serviceName.slice(1)} - A powerful online utility tool for your productivity needs.`
+    `${
+      serviceName.charAt(0).toUpperCase() + serviceName.slice(1)
+    } - A powerful online utility tool for your productivity needs.`
   );
 }
 
@@ -229,11 +231,11 @@ async function createMainPage(services) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Primary Meta Tags -->
-    <title>Al-bur Services - Free Online Tools & Utilities | QR Scanner, Converter Tools</title>
-    <meta name="title" content="Al-bur Services - Free Online Tools & Utilities | QR Scanner, Converter Tools">
-    <meta name="description" content="Discover powerful free online tools including QR code scanner, file converters, and productivity utilities. Fast, secure, and mobile-friendly web applications for global users.">
+    <title>Toolbox Studio - Free Online Tools & Utilities | QR Scanner, Converter Tools</title>
+    <meta name="title" content="Toolbox Studio - Free Online Tools & Utilities | QR Scanner, Converter Tools">
+    <meta name="description" content="Discover Free online tools including QR code scanner, file converters, and productivity utilities. Fast, secure, and mobile-friendly web applications for global users.">
     <meta name="keywords" content="QR scanner, QR code reader, online tools, free utilities, web apps, file converter, productivity tools, mobile scanner">
-    <meta name="author" content="Al-bur">
+    <meta name="author" content="Toolbox Studio">
     <meta name="robots" content="index, follow">
     <meta name="language" content="English">
     <meta name="revisit-after" content="1 days">
@@ -241,27 +243,27 @@ async function createMainPage(services) {
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://al-bur.github.io/">
-    <meta property="og:title" content="Al-bur Services - Free Online Tools & Utilities">
-    <meta property="og:description" content="Discover powerful free online tools including QR code scanner, file converters, and productivity utilities. Fast, secure, and mobile-friendly.">
+    <meta property="og:title" content="Toolbox Studio - Free Online Tools & Utilities">
+    <meta property="og:description" content="Discover Free online tools including QR code scanner, file converters, and productivity utilities. Fast, secure, and mobile-friendly.">
     <meta property="og:image" content="https://al-bur.github.io/assets/og-image.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:site_name" content="Al-bur Services">
+    <meta property="og:site_name" content="Toolbox Studio">
     <meta property="og:locale" content="en_US">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://al-bur.github.io/">
-    <meta property="twitter:title" content="Al-bur Services - Free Online Tools & Utilities">
-    <meta property="twitter:description" content="Discover powerful free online tools including QR code scanner, file converters, and productivity utilities. Fast, secure, and mobile-friendly.">
+    <meta property="twitter:title" content="Toolbox Studio - Free Online Tools & Utilities">
+    <meta property="twitter:description" content="Discover Free online tools including QR code scanner, file converters, and productivity utilities. Fast, secure, and mobile-friendly.">
     <meta property="twitter:image" content="https://al-bur.github.io/assets/twitter-image.jpg">
-    <meta name="twitter:image:alt" content="Al-bur Services - Free Online Tools">
+    <meta name="twitter:image:alt" content="Toolbox Studio - Free Online Tools">
     
     <!-- Additional SEO Meta Tags -->
     <meta name="theme-color" content="#ff6b6b">
     <meta name="msapplication-TileColor" content="#ff6b6b">
-    <meta name="application-name" content="Al-bur Services">
-    <meta name="apple-mobile-web-app-title" content="Al-bur Services">
+    <meta name="application-name" content="Toolbox Studio">
+    <meta name="apple-mobile-web-app-title" content="Toolbox Studio">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="format-detection" content="telephone=no">
@@ -298,7 +300,7 @@ async function createMainPage(services) {
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      "name": "Al-bur Services",
+      "name": "Toolbox Studio",
       "description": "Free online tools and utilities including QR code scanner, file converters, and productivity applications",
       "url": "https://al-bur.github.io/",
       "potentialAction": {
@@ -308,7 +310,7 @@ async function createMainPage(services) {
       },
       "publisher": {
         "@type": "Organization",
-        "name": "Al-bur",
+        "name": "Toolbox Studio",
         "url": "https://al-bur.github.io/"
       },
       "dateModified": "${currentDate}",
@@ -318,7 +320,9 @@ async function createMainPage(services) {
           .map(
             (service) => `{
           "@type": "WebApplication",
-          "name": "${service.name.charAt(0).toUpperCase() + service.name.slice(1)} Tool",
+          "name": "${
+            service.name.charAt(0).toUpperCase() + service.name.slice(1)
+          } Tool",
           "description": "${service.description}",
           "url": "${service.url}",
           "applicationCategory": "UtilitiesApplication",
@@ -520,8 +524,8 @@ async function createMainPage(services) {
 <body>
     <div class="container">
         <header class="header">
-            <h1>🚀 Al-bur Services</h1>
-            <p>Free Online Tools & Utilities for Everyone</p>
+            <h1>✨ Toolbox Studio</h1>
+            <p>Free Web Tools & Utilities for Everyone</p>
         </header>
         
         <section class="hero-section">
@@ -552,9 +556,18 @@ async function createMainPage(services) {
                 (service) => `
             <article class="service-card" itemscope itemtype="https://schema.org/WebApplication">
                 <div class="service-icon">${getServiceIcon(service.name)}</div>
-                <h3 itemprop="name">${service.name.charAt(0).toUpperCase() + service.name.slice(1).replace("-", " ")}</h3>
-                <p class="service-description" itemprop="description">${service.description}</p>
-                <a href="./${service.name}/" class="service-link" itemprop="url" aria-label="Open ${service.name} tool">
+                <h3 itemprop="name">${
+                  service.name.charAt(0).toUpperCase() +
+                  service.name.slice(1).replace("-", " ")
+                }</h3>
+                <p class="service-description" itemprop="description">${
+                  service.description
+                }</p>
+                <a href="./${
+                  service.name
+                }/" class="service-link" itemprop="url" aria-label="Open ${
+                  service.name
+                } tool">
                     Launch Tool →
                 </a>
             </article>
@@ -578,7 +591,7 @@ async function createMainPage(services) {
 
         <footer class="footer" role="contentinfo">
             <p>
-                <span>© 2025 Al-bur Services</span> | 
+                <span>© 2025 Toolbox Studio</span> | 
                 <a href="https://pages.github.com/" class="github-link" rel="noopener">GitHub Pages</a> | 
                 <span>Built with ❤️ for global users</span>
             </p>

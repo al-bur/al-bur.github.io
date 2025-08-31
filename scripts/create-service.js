@@ -68,7 +68,8 @@ async function createService() {
 
     // Generate SEO-optimized service metadata
     const serviceTitle =
-      serviceName.charAt(0).toUpperCase() + serviceName.slice(1).replace("-", " ");
+      serviceName.charAt(0).toUpperCase() +
+      serviceName.slice(1).replace("-", " ");
     const serviceDescription = getServiceDescription(serviceName);
     const serviceUrl = `https://al-bur.github.io/${serviceName}/`;
     const currentDate = new Date().toISOString();
@@ -81,11 +82,11 @@ async function createService() {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Primary Meta Tags -->
-    <title>${serviceTitle} - Free Online Tool | Al-bur Services</title>
-    <meta name="title" content="${serviceTitle} - Free Online Tool | Al-bur Services">
+    <title>${serviceTitle} - Free Online Tool | Toolbox Studio</title>
+    <meta name="title" content="${serviceTitle} - Free Online Tool | Toolbox Studio">
     <meta name="description" content="${serviceDescription}">
     <meta name="keywords" content="${serviceName}, online tool, free utility, web app, ${serviceTitle.toLowerCase()}">
-    <meta name="author" content="Al-bur">
+    <meta name="author" content="Toolbox Studio">
     <meta name="robots" content="index, follow">
     <meta name="language" content="English">
     
@@ -95,7 +96,7 @@ async function createService() {
     <meta property="og:title" content="${serviceTitle} - Free Online Tool">
     <meta property="og:description" content="${serviceDescription}">
     <meta property="og:image" content="https://al-bur.github.io/assets/${serviceName}-og.jpg">
-    <meta property="og:site_name" content="Al-bur Services">
+    <meta property="og:site_name" content="Toolbox Studio">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
@@ -141,7 +142,7 @@ async function createService() {
       },
       "publisher": {
         "@type": "Organization",
-        "name": "Al-bur Services",
+        "name": "Toolbox Studio",
         "url": "https://al-bur.github.io/"
       },
       "dateModified": "${currentDate}",
@@ -151,7 +152,7 @@ async function createService() {
 </head>
 <body>
     <nav class="nav" role="navigation">
-        <a href="../" class="nav-home" aria-label="Go back to Al-bur Services homepage">← Home</a>
+        <a href="../" class="nav-home" aria-label="Go back to Toolbox Studio homepage">← Home</a>
         <h1>${serviceTitle}</h1>
     </nav>
     
@@ -188,7 +189,7 @@ async function createService() {
     <footer class="footer" role="contentinfo">
         <p>
             <a href="../" class="footer-link">← Back to All Tools</a> | 
-            <span>© 2025 Al-bur Services</span>
+            <span>© 2025 Toolbox Studio</span>
         </p>
     </footer>
 
@@ -214,14 +215,18 @@ async function createService() {
           "Optimize and compress images without losing quality. Perfect for web developers and content creators.",
         "pdf-tools":
           "Comprehensive PDF utilities for merging, splitting, and converting PDF files online.",
-        "color-picker": "Advanced color picker and palette generator for designers and developers.",
-        "url-shortener": "Create short, memorable URLs for your links with detailed analytics.",
-        "password-generator": "Generate strong, secure passwords with customizable options.",
+        "color-picker":
+          "Advanced color picker and palette generator for designers and developers.",
+        "url-shortener":
+          "Create short, memorable URLs for your links with detailed analytics.",
+        "password-generator":
+          "Generate strong, secure passwords with customizable options.",
       };
       return (
         descriptions[serviceName] ||
         `${
-          serviceName.charAt(0).toUpperCase() + serviceName.slice(1).replace("-", " ")
+          serviceName.charAt(0).toUpperCase() +
+          serviceName.slice(1).replace("-", " ")
         } - A powerful online utility tool designed for productivity and ease of use.`
       );
     }
@@ -498,7 +503,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });`;
 
     // 파일들 생성
-    await fs.writeFile(path.join(serviceDir, "src", "index.html"), htmlTemplate);
+    await fs.writeFile(
+      path.join(serviceDir, "src", "index.html"),
+      htmlTemplate
+    );
     await fs.writeFile(path.join(serviceDir, "src", "style.css"), cssTemplate);
     await fs.writeFile(path.join(serviceDir, "src", "script.ts"), tsTemplate);
 
