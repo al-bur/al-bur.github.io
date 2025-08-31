@@ -68,8 +68,7 @@ async function createService() {
 
     // Generate SEO-optimized service metadata
     const serviceTitle =
-      serviceName.charAt(0).toUpperCase() +
-      serviceName.slice(1).replace("-", " ");
+      serviceName.charAt(0).toUpperCase() + serviceName.slice(1).replace("-", " ");
     const serviceDescription = getServiceDescription(serviceName);
     const serviceUrl = `https://al-bur.github.io/${serviceName}/`;
     const currentDate = new Date().toISOString();
@@ -218,18 +217,14 @@ async function createService() {
           "Optimize and compress images without losing quality. Perfect for web developers and content creators.",
         "pdf-tools":
           "Comprehensive PDF utilities for merging, splitting, and converting PDF files online.",
-        "color-picker":
-          "Advanced color picker and palette generator for designers and developers.",
-        "url-shortener":
-          "Create short, memorable URLs for your links with detailed analytics.",
-        "password-generator":
-          "Generate strong, secure passwords with customizable options.",
+        "color-picker": "Advanced color picker and palette generator for designers and developers.",
+        "url-shortener": "Create short, memorable URLs for your links with detailed analytics.",
+        "password-generator": "Generate strong, secure passwords with customizable options.",
       };
       return (
         descriptions[serviceName] ||
         `${
-          serviceName.charAt(0).toUpperCase() +
-          serviceName.slice(1).replace("-", " ")
+          serviceName.charAt(0).toUpperCase() + serviceName.slice(1).replace("-", " ")
         } - A powerful online utility tool designed for productivity and ease of use.`
       );
     }
@@ -505,10 +500,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });`;
 
     // 파일들 생성
-    await fs.writeFile(
-      path.join(serviceDir, "src", "index.html"),
-      htmlTemplate
-    );
+    await fs.writeFile(path.join(serviceDir, "src", "index.html"), htmlTemplate);
     await fs.writeFile(path.join(serviceDir, "src", "style.css"), cssTemplate);
     await fs.writeFile(path.join(serviceDir, "src", "script.ts"), tsTemplate);
 

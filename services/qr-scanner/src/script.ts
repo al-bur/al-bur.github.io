@@ -26,12 +26,8 @@ class QRScannerApp {
 
   private setupEventListeners(): void {
     // Navigation controls
-    const cameraModeBtn = document.getElementById(
-      "camera-mode"
-    ) as HTMLButtonElement;
-    const fileModeBtn = document.getElementById(
-      "file-mode"
-    ) as HTMLButtonElement;
+    const cameraModeBtn = document.getElementById("camera-mode") as HTMLButtonElement;
+    const fileModeBtn = document.getElementById("file-mode") as HTMLButtonElement;
 
     if (cameraModeBtn) {
       cameraModeBtn.addEventListener("click", () => this.setScanMode("camera"));
@@ -41,15 +37,9 @@ class QRScannerApp {
     }
 
     // Main action buttons
-    const startScanBtn = document.getElementById(
-      "start-scan"
-    ) as HTMLButtonElement;
-    const stopCameraBtn = document.getElementById(
-      "stop-camera"
-    ) as HTMLButtonElement;
-    const backFromFileBtn = document.getElementById(
-      "back-from-file"
-    ) as HTMLButtonElement;
+    const startScanBtn = document.getElementById("start-scan") as HTMLButtonElement;
+    const stopCameraBtn = document.getElementById("stop-camera") as HTMLButtonElement;
+    const backFromFileBtn = document.getElementById("back-from-file") as HTMLButtonElement;
 
     if (startScanBtn) {
       startScanBtn.addEventListener("click", () => this.startScanning());
@@ -58,9 +48,7 @@ class QRScannerApp {
       stopCameraBtn.addEventListener("click", () => this.stopCamera());
     }
     if (backFromFileBtn) {
-      backFromFileBtn.addEventListener("click", () =>
-        this.showScreen("welcome")
-      );
+      backFromFileBtn.addEventListener("click", () => this.showScreen("welcome"));
     }
 
     // File upload
@@ -78,12 +66,8 @@ class QRScannerApp {
 
     // Result actions
     const copyBtn = document.getElementById("copy-result") as HTMLButtonElement;
-    const actionBtn = document.getElementById(
-      "action-result"
-    ) as HTMLButtonElement;
-    const scanAgainBtn = document.getElementById(
-      "scan-again"
-    ) as HTMLButtonElement;
+    const actionBtn = document.getElementById("action-result") as HTMLButtonElement;
+    const scanAgainBtn = document.getElementById("scan-again") as HTMLButtonElement;
     const resetBtn = document.getElementById("reset-app") as HTMLButtonElement;
 
     if (copyBtn) {
@@ -100,9 +84,7 @@ class QRScannerApp {
     }
 
     // Error dismissal
-    const dismissErrorBtn = document.getElementById(
-      "dismiss-error"
-    ) as HTMLButtonElement;
+    const dismissErrorBtn = document.getElementById("dismiss-error") as HTMLButtonElement;
     if (dismissErrorBtn) {
       dismissErrorBtn.addEventListener("click", () => this.hideError());
     }
@@ -114,12 +96,8 @@ class QRScannerApp {
   }
 
   private updateNavButtons(): void {
-    const cameraModeBtn = document.getElementById(
-      "camera-mode"
-    ) as HTMLButtonElement;
-    const fileModeBtn = document.getElementById(
-      "file-mode"
-    ) as HTMLButtonElement;
+    const cameraModeBtn = document.getElementById("camera-mode") as HTMLButtonElement;
+    const fileModeBtn = document.getElementById("file-mode") as HTMLButtonElement;
 
     if (cameraModeBtn && fileModeBtn) {
       cameraModeBtn.classList.toggle("btn-primary", this.scanMode === "camera");
@@ -145,9 +123,7 @@ class QRScannerApp {
   }
 
   private showLoading(show: boolean, message = "Loading..."): void {
-    const loadingOverlay = document.getElementById(
-      "loading-overlay"
-    ) as HTMLElement;
+    const loadingOverlay = document.getElementById("loading-overlay") as HTMLElement;
     const loadingText = document.querySelector(".loading-text") as HTMLElement;
 
     if (loadingOverlay) {
@@ -163,12 +139,8 @@ class QRScannerApp {
   }
 
   private showError(message: string): void {
-    const errorDisplay = document.getElementById(
-      "error-display"
-    ) as HTMLElement;
-    const errorMessage = document.getElementById(
-      "error-message"
-    ) as HTMLElement;
+    const errorDisplay = document.getElementById("error-display") as HTMLElement;
+    const errorMessage = document.getElementById("error-message") as HTMLElement;
 
     if (errorDisplay && errorMessage) {
       errorMessage.textContent = message;
@@ -182,9 +154,7 @@ class QRScannerApp {
   }
 
   private hideError(): void {
-    const errorDisplay = document.getElementById(
-      "error-display"
-    ) as HTMLElement;
+    const errorDisplay = document.getElementById("error-display") as HTMLElement;
     if (errorDisplay) {
       errorDisplay.classList.add("hidden");
     }
@@ -221,17 +191,14 @@ class QRScannerApp {
       // Prefer back camera
       const backCamera = videoDevices.find(
         (device: MediaDeviceInfo) =>
-          device.label.toLowerCase().includes("back") ||
-          device.label.toLowerCase().includes("rear")
+          device.label.toLowerCase().includes("back") || device.label.toLowerCase().includes("rear")
       );
       const selectedDevice = backCamera || videoDevices[0];
 
       this.showScreen("camera");
       this.showLoading(false);
 
-      const videoElement = document.getElementById(
-        "camera-video"
-      ) as HTMLVideoElement;
+      const videoElement = document.getElementById("camera-video") as HTMLVideoElement;
       if (videoElement) {
         await this.codeReader.decodeFromVideoDevice(
           selectedDevice.deviceId,
@@ -253,16 +220,9 @@ class QRScannerApp {
 
       let errorMessage = "Failed to initialize camera";
       if (error instanceof Error) {
-        if (
-          error.name === "NotAllowedError" ||
-          error.name === "PermissionDeniedError"
-        ) {
-          errorMessage =
-            "Camera permission denied. Please allow camera access and try again.";
-        } else if (
-          error.name === "NotFoundError" ||
-          error.message.includes("No camera found")
-        ) {
+        if (error.name === "NotAllowedError" || error.name === "PermissionDeniedError") {
+          errorMessage = "Camera permission denied. Please allow camera access and try again.";
+        } else if (error.name === "NotFoundError" || error.message.includes("No camera found")) {
           errorMessage = "No camera found on this device.";
         } else if (error.name === "NotSupportedError") {
           errorMessage = "Camera is not supported on this device.";
@@ -307,9 +267,7 @@ class QRScannerApp {
       }
 
       if (file.size > 10 * 1024 * 1024) {
-        throw new Error(
-          "File size too large. Please select a file smaller than 10MB."
-        );
+        throw new Error("File size too large. Please select a file smaller than 10MB.");
       }
 
       this.showLoading(true, "Processing image...");
@@ -336,8 +294,7 @@ class QRScannerApp {
       }
 
       if (errorMessage.includes("NotFoundException")) {
-        errorMessage =
-          "No QR code found in the selected image. Please try a different image.";
+        errorMessage = "No QR code found in the selected image. Please try a different image.";
       }
 
       this.showError(errorMessage);
@@ -362,26 +319,20 @@ class QRScannerApp {
     }
 
     // Update timestamp
-    const resultTimestamp = document.getElementById(
-      "result-timestamp"
-    ) as HTMLElement;
+    const resultTimestamp = document.getElementById("result-timestamp") as HTMLElement;
     if (resultTimestamp) {
       resultTimestamp.textContent = `Scanned on ${result.timestamp.toLocaleString()}`;
     }
 
     // Determine result type and update chip
     const resultType = this.getResultType(result.text);
-    const resultChip = document.getElementById(
-      "result-type-chip"
-    ) as HTMLElement;
+    const resultChip = document.getElementById("result-type-chip") as HTMLElement;
     if (resultChip) {
       resultChip.textContent = `${resultType.icon} ${resultType.type}`;
     }
 
     // Show/hide action button
-    const actionBtn = document.getElementById(
-      "action-result"
-    ) as HTMLButtonElement;
+    const actionBtn = document.getElementById("action-result") as HTMLButtonElement;
     if (actionBtn) {
       if (resultType.action) {
         actionBtn.textContent = `${resultType.icon} ${resultType.action}`;
@@ -425,9 +376,7 @@ class QRScannerApp {
   }
 
   private isPhone(text: string): boolean {
-    return (
-      /^[\+]?[0-9\-\(\)\s]+$/.test(text) && text.replace(/\D/g, "").length >= 10
-    );
+    return /^[\+]?[0-9\-\(\)\s]+$/.test(text) && text.replace(/\D/g, "").length >= 10;
   }
 
   private async copyResult(): Promise<void> {
@@ -437,9 +386,7 @@ class QRScannerApp {
       await navigator.clipboard.writeText(this.lastResult.text);
 
       // Update button text temporarily
-      const copyBtn = document.getElementById(
-        "copy-result"
-      ) as HTMLButtonElement;
+      const copyBtn = document.getElementById("copy-result") as HTMLButtonElement;
       if (copyBtn) {
         const originalText = copyBtn.textContent;
         copyBtn.textContent = "✅ Copied!";
