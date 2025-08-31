@@ -89,7 +89,24 @@ async function buildService(serviceName) {
 
 async function checkForTsFiles(dir) {
   const files = await fs.readdir(dir);
-  return files.some((file) => file.endsWith('.ts') || file.endsWith('.tsx'));
+  
+  // 바로 하위 파일 확인
+  if (files.some((file) => file.endsWith('.ts') || file.endsWith('.tsx'))) {
+    return true;
+  }
+  
+  // 하위 디렉토리에서 TypeScript 파일 찾기
+  for (const file of files) {
+    const filePath = path.join(dir, file);
+    const stat = await fs.stat(filePath);
+    if (stat.isDirectory()) {
+      if (await checkForTsFiles(filePath)) {
+        return true;
+      }
+    }
+  }
+  
+  return false;
 }
 
 async function copyNonTsFiles(sourceDir, outputDir) {
@@ -120,20 +137,17 @@ async function buildSharedFolder() {
 
     if (hasSharedTsFiles) {
       try {
-        // shared 폴더의 TypeScript 컴파일
+        // shared 폴더의 TypeScript 컴파일 (tsconfig.json에서 outDir이 이미 설정됨)
         execSync('npx tsc -p shared/tsconfig.json', {
           stdio: 'inherit',
           cwd: process.cwd(),
         });
-
-        // TypeScript 이외의 파일들 복사
-        await copyNonTsFiles(sharedDir, sharedOutputDir);
+        
+        // TypeScript 컴파일 완료
       } catch (error) {
-        console.warn('⚠️  shared 폴더 TypeScript 컴파일 실패, 원본 복사로 대체');
-        await fs.copy(sharedDir, sharedOutputDir);
+        console.warn('⚠️  shared 폴더 TypeScript 컴파일 실패');
+        throw error;
       }
-    } else {
-      await fs.copy(sharedDir, sharedOutputDir);
     }
   }
 }
