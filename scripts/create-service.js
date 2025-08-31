@@ -94,7 +94,12 @@ async function createService() {
         </div>
     </main>
 
-    <script src="./script.js"></script>
+    <!-- GA4 Analytics (자동 로드) -->
+    <script type="module" src="./shared/analytics/ga4-init.js"></script>
+    <script type="module" src="./shared/analytics/ga4-helpers.js"></script>
+    
+    <!-- 서비스별 스크립트 -->
+    <script type="module" src="./script.js"></script>
 </body>
 </html>`;
 

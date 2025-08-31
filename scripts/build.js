@@ -13,6 +13,10 @@ async function buildAll() {
     await fs.emptyDir(distDir);
     console.log('🧹 dist 디렉토리를 정리했습니다.');
 
+    // shared 폴더 먼저 빌드
+    await buildSharedFolder();
+    console.log('✅ 공유 폴더 빌드 완료');
+
     // services 디렉토리에서 모든 서비스 찾기
     const services = await fs.readdir(servicesDir);
 
@@ -28,7 +32,7 @@ async function buildAll() {
         console.log(`✅ ${service} 빌드 완료`);
       }
     }
-
+    
     // 메인 index.html 생성
     await createMainPage(services);
     console.log('✅ 메인 페이지 생성 완료');
@@ -71,6 +75,13 @@ async function buildService(serviceName) {
       // TypeScript가 없으면 기존 방식으로 복사
       await fs.copy(serviceDir, outputDir);
     }
+    
+    // shared 폴더를 각 서비스에 복사 (빌드 완료 후)
+    const distSharedDir = path.join(process.cwd(), 'dist', 'shared');
+    if (await fs.pathExists(distSharedDir)) {
+      const serviceSharedDir = path.join(outputDir, 'shared');
+      await fs.copy(distSharedDir, serviceSharedDir);
+    }
   } else {
     console.warn(`⚠️  ${serviceName}의 src 폴더를 찾을 수 없습니다.`);
   }
@@ -95,6 +106,45 @@ async function copyNonTsFiles(sourceDir, outputDir) {
     } else if (!file.endsWith('.ts') && !file.endsWith('.tsx')) {
       await fs.copy(sourcePath, outputPath);
     }
+  }
+}
+
+async function buildSharedFolder() {
+  const sharedDir = path.join(process.cwd(), 'shared');
+  const sharedOutputDir = path.join(process.cwd(), 'dist', 'shared');
+  
+  if (await fs.pathExists(sharedDir)) {
+    await fs.ensureDir(sharedOutputDir);
+    
+    const hasSharedTsFiles = await checkForTsFiles(sharedDir);
+    
+    if (hasSharedTsFiles) {
+      try {
+        // shared 폴더의 TypeScript 컴파일
+        execSync(`npx tsc -p shared/tsconfig.json`, {
+          stdio: 'inherit',
+          cwd: process.cwd(),
+        });
+        
+        // TypeScript 이외의 파일들 복사
+        await copyNonTsFiles(sharedDir, sharedOutputDir);
+      } catch (error) {
+        console.warn(`⚠️  shared 폴더 TypeScript 컴파일 실패, 원본 복사로 대체`);
+        await fs.copy(sharedDir, sharedOutputDir);
+      }
+    } else {
+      await fs.copy(sharedDir, sharedOutputDir);
+    }
+  }
+}
+
+async function copySharedFiles(outputDir) {
+  const distSharedDir = path.join(process.cwd(), 'dist', 'shared');
+  const serviceSharedDir = path.join(outputDir, 'shared');
+  
+  // 이미 빌드된 shared 폴더를 각 서비스에 복사
+  if (await fs.pathExists(distSharedDir)) {
+    await fs.copy(distSharedDir, serviceSharedDir);
   }
 }
 
@@ -295,6 +345,10 @@ async function createMainPage(services) {
             observer.observe(card);
         });
     </script>
+
+    <!-- GA4 Analytics (자동 로드) -->
+    <script type="module" src="./shared/analytics/ga4-init.js"></script>
+    <script type="module" src="./shared/analytics/ga4-helpers.js"></script>
 </body>
 </html>`;
 

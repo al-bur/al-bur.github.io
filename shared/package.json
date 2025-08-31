@@ -1,0 +1,20 @@
+{
+  "name": "@al-bur/shared",
+  "version": "1.0.0",
+  "description": "Shared utilities and analytics for al-bur services",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./analytics/ga4-config": "./analytics/ga4-config.js",
+    "./analytics/ga4-init": "./analytics/ga4-init.js",
+    "./analytics/ga4-helpers": "./analytics/ga4-helpers.js",
+    "./utils/environment": "./utils/environment.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  }
+}
