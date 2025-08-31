@@ -185,34 +185,41 @@ async function copySharedFiles(outputDir) {
 
 function getServiceDescription(serviceName) {
   const descriptions = {
-    'qr-scanner': 'Free online QR code scanner and reader. Scan QR codes using camera or upload image files. Fast, secure, and mobile-friendly.',
-    'file-converter': 'Convert files between different formats quickly and securely. Support for images, documents, and media files.',
-    'text-tools': 'Essential text utilities including word counter, case converter, and text formatting tools for productivity.',
-    'image-optimizer': 'Optimize and compress images without losing quality. Perfect for web developers and content creators.'
+    "qr-scanner":
+      "Free online QR code scanner and reader. Scan QR codes using camera or upload image files. Fast, secure, and mobile-friendly.",
+    "file-converter":
+      "Convert files between different formats quickly and securely. Support for images, documents, and media files.",
+    "text-tools":
+      "Essential text utilities including word counter, case converter, and text formatting tools for productivity.",
+    "image-optimizer":
+      "Optimize and compress images without losing quality. Perfect for web developers and content creators.",
   };
-  return descriptions[serviceName] || `${serviceName.charAt(0).toUpperCase() + serviceName.slice(1)} - A powerful online utility tool for your productivity needs.`;
+  return (
+    descriptions[serviceName] ||
+    `${serviceName.charAt(0).toUpperCase() + serviceName.slice(1)} - A powerful online utility tool for your productivity needs.`
+  );
 }
 
 function getServiceIcon(serviceName) {
   const icons = {
-    'qr-scanner': '📱',
-    'file-converter': '🔄',
-    'text-tools': '📝',
-    'image-optimizer': '🖼️',
-    'pdf-tools': '📄',
-    'color-picker': '🎨',
-    'url-shortener': '🔗',
-    'password-generator': '🔐'
+    "qr-scanner": "📱",
+    "file-converter": "🔄",
+    "text-tools": "📝",
+    "image-optimizer": "🖼️",
+    "pdf-tools": "📄",
+    "color-picker": "🎨",
+    "url-shortener": "🔗",
+    "password-generator": "🔐",
   };
-  return icons[serviceName] || '🛠️';
+  return icons[serviceName] || "🛠️";
 }
 
 async function createMainPage(services) {
   const currentDate = new Date().toISOString();
-  const servicesList = services.map(service => ({
+  const servicesList = services.map((service) => ({
     name: service,
     url: `https://al-bur.github.io/${service}/`,
-    description: getServiceDescription(service)
+    description: getServiceDescription(service),
   }));
 
   const mainHtml = `<!DOCTYPE html>
@@ -251,8 +258,8 @@ async function createMainPage(services) {
     <meta name="twitter:image:alt" content="Al-bur Services - Free Online Tools">
     
     <!-- Additional SEO Meta Tags -->
-    <meta name="theme-color" content="#667eea">
-    <meta name="msapplication-TileColor" content="#667eea">
+    <meta name="theme-color" content="#ff6b6b">
+    <meta name="msapplication-TileColor" content="#ff6b6b">
     <meta name="application-name" content="Al-bur Services">
     <meta name="apple-mobile-web-app-title" content="Al-bur Services">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -307,7 +314,9 @@ async function createMainPage(services) {
       "dateModified": "${currentDate}",
       "inLanguage": "en-US",
       "mainEntity": [
-        ${servicesList.map(service => `{
+        ${servicesList
+          .map(
+            (service) => `{
           "@type": "WebApplication",
           "name": "${service.name.charAt(0).toUpperCase() + service.name.slice(1)} Tool",
           "description": "${service.description}",
@@ -320,7 +329,9 @@ async function createMainPage(services) {
             "price": "0",
             "priceCurrency": "USD"
           }
-        }`).join(',\n        ')}
+        }`
+          )
+          .join(",\n        ")}
       ]
     }
     </script>
@@ -334,7 +345,7 @@ async function createMainPage(services) {
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 50%, #a8e6cf 100%);
             min-height: 100vh;
             color: #333;
         }
@@ -370,24 +381,39 @@ async function createMainPage(services) {
         }
 
         .service-card {
-            background: white;
-            border-radius: 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 1.5rem;
             padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 40px rgba(255, 107, 107, 0.2);
+            transition: all 0.3s ease;
             text-decoration: none;
             color: inherit;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b 0%, #ffa726 50%, #a8e6cf 100%);
         }
 
         .service-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(255, 164, 38, 0.3);
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
 
         .service-card h3 {
-            color: #4c51bf;
+            color: #ff6b6b;
             margin-bottom: 1rem;
             font-size: 1.5rem;
+            font-weight: 600;
         }
 
         .service-card p {
@@ -397,17 +423,20 @@ async function createMainPage(services) {
 
         .service-link {
             display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
             color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
             text-decoration: none;
-            font-weight: 500;
-            transition: opacity 0.2s;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 164, 38, 0.3);
         }
 
         .service-link:hover {
-            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 164, 38, 0.4);
+            background: linear-gradient(135deg, #ff5252 0%, #ff9800 100%);
         }
 
         .footer {
@@ -518,7 +547,7 @@ async function createMainPage(services) {
                 (service) => `
             <article class="service-card" itemscope itemtype="https://schema.org/WebApplication">
                 <div class="service-icon">${getServiceIcon(service.name)}</div>
-                <h3 itemprop="name">${service.name.charAt(0).toUpperCase() + service.name.slice(1).replace('-', ' ')}</h3>
+                <h3 itemprop="name">${service.name.charAt(0).toUpperCase() + service.name.slice(1).replace("-", " ")}</h3>
                 <p class="service-description" itemprop="description">${service.description}</p>
                 <a href="./${service.name}/" class="service-link" itemprop="url" aria-label="Open ${service.name} tool">
                     Launch Tool →
@@ -598,12 +627,12 @@ async function createMainPage(services) {
 async function copyPublicFiles() {
   const publicDir = path.join(process.cwd(), "public");
   const distDir = path.join(process.cwd(), "dist");
-  
+
   // public 디렉토리가 존재하는지 확인
   if (!(await fs.pathExists(publicDir))) {
     return;
   }
-  
+
   try {
     // public 디렉토리의 모든 파일을 dist로 복사
     await fs.copy(publicDir, distDir, {
@@ -611,8 +640,8 @@ async function copyPublicFiles() {
       filter: (src, dest) => {
         // 숨겨진 파일이나 .DS_Store는 제외
         const filename = path.basename(src);
-        return !filename.startsWith('.') && filename !== '.DS_Store';
-      }
+        return !filename.startsWith(".") && filename !== ".DS_Store";
+      },
     });
   } catch (error) {
     console.warn("공개 파일 복사 중 오류:", error.message);

@@ -295,5 +295,65 @@ trackPageView('/custom-path');
 
 ---
 
+## 🎨 디자인 시스템 - Seoul Sunset 테마
+
+### 컬러 팔레트
+서비스들은 통일된 Seoul Sunset 컬러 테마를 사용합니다:
+
+**주요 색상:**
+- **Coral Flame**: `#ff6b6b` → `#ff8e53` (따뜻한 메인 액센트)
+- **Mint Ocean**: `#4ecdc4` → `#44a3aa` (보조 액센트, 정보)
+- **Sunset Yellow**: `#ffa726` (하이라이트, 새 기능)
+- **Soft Mint**: `#a8e6cf` (성공, 완료 상태)
+
+**그라데이션:**
+- **메인 배경**: `linear-gradient(135deg, #ff6b6b 0%, #ffa726 50%, #a8e6cf 100%)`
+- **버튼 (Primary)**: `linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%)`
+- **버튼 (Success)**: `linear-gradient(135deg, #a8e6cf 0%, #4ecdc4 100%)`
+- **카드 테두리**: `linear-gradient(90deg, #ff6b6b 0%, #ffa726 50%, #a8e6cf 100%)`
+
+### UI 컴포넌트 스타일
+- **카드**: 반투명 배경 + 블러 효과 + 상단 그라데이션 테두리
+- **버튼**: 둥근 모서리 + 그라데이션 + 호버 애니메이션
+- **shadow**: Seoul Sunset 색상 기반의 박스 섀도우
+- **glassmorphism**: 반투명 + backdrop-filter 효과
+
+### 적용 범위
+- 메인 페이지 (`scripts/build.js`)
+- 서비스 스캐폴딩 템플릿 (`scripts/create-service.js`)
+- QR Scanner 서비스 (`services/qr-scanner/src/style.css`)
+- PWA 매니페스트 및 파비콘
+
+---
+
+## 📋 스캐폴딩 SEO 자동화
+
+새로운 서비스를 생성할 때 다음 SEO 최적화가 자동으로 적용됩니다:
+
+### 자동 생성되는 SEO 요소
+1. **메타 태그**: Open Graph, Twitter Cards, 기본 SEO 태그
+2. **구조화된 데이터**: JSON-LD 스키마 마크업
+3. **접근성**: ARIA 라벨, 스킵 링크, 시맨틱 HTML
+4. **다국어**: hreflang 태그 및 언어별 메타데이터
+5. **성능**: 폰트 preconnect, 이미지 최적화 가이드
+
+### 서비스별 설명 관리
+`getServiceDescription()` 함수에서 각 서비스별 SEO 친화적 설명을 관리:
+```javascript
+const descriptions = {
+  'qr-scanner': 'Free online QR code scanner and reader...',
+  'file-converter': 'Convert files between different formats...',
+  // 새 서비스 추가 시 여기에 설명 추가
+};
+```
+
+### 확인 사항
+- 새 서비스 생성 시 `pnpm create-service <name>` 명령어 사용
+- 생성된 HTML에 Seoul Sunset 테마가 적용되는지 확인
+- SEO 메타데이터가 올바르게 삽입되는지 확인
+- `pnpm build` 실행 시 public 폴더 파일들이 자동 복사되는지 확인
+
+---
+
 **이 문서는 프로젝트 변경사항에 따라 지속적으로 업데이트됩니다.**  
-**마지막 업데이트**: 2025-08-31
+**마지막 업데이트**: 2025-08-31 (Seoul Sunset 테마 적용)

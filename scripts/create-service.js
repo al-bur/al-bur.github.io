@@ -67,7 +67,9 @@ async function createService() {
     });
 
     // Generate SEO-optimized service metadata
-    const serviceTitle = serviceName.charAt(0).toUpperCase() + serviceName.slice(1).replace('-', ' ');
+    const serviceTitle =
+      serviceName.charAt(0).toUpperCase() +
+      serviceName.slice(1).replace("-", " ");
     const serviceDescription = getServiceDescription(serviceName);
     const serviceUrl = `https://al-bur.github.io/${serviceName}/`;
     const currentDate = new Date().toISOString();
@@ -206,16 +208,30 @@ async function createService() {
     // Helper function for service descriptions
     function getServiceDescription(serviceName) {
       const descriptions = {
-        'qr-scanner': 'Free online QR code scanner and reader. Scan QR codes using camera or upload image files. Fast, secure, and mobile-friendly.',
-        'file-converter': 'Convert files between different formats quickly and securely. Support for images, documents, and media files.',
-        'text-tools': 'Essential text utilities including word counter, case converter, and text formatting tools for productivity.',
-        'image-optimizer': 'Optimize and compress images without losing quality. Perfect for web developers and content creators.',
-        'pdf-tools': 'Comprehensive PDF utilities for merging, splitting, and converting PDF files online.',
-        'color-picker': 'Advanced color picker and palette generator for designers and developers.',
-        'url-shortener': 'Create short, memorable URLs for your links with detailed analytics.',
-        'password-generator': 'Generate strong, secure passwords with customizable options.'
+        "qr-scanner":
+          "Free online QR code scanner and reader. Scan QR codes using camera or upload image files. Fast, secure, and mobile-friendly.",
+        "file-converter":
+          "Convert files between different formats quickly and securely. Support for images, documents, and media files.",
+        "text-tools":
+          "Essential text utilities including word counter, case converter, and text formatting tools for productivity.",
+        "image-optimizer":
+          "Optimize and compress images without losing quality. Perfect for web developers and content creators.",
+        "pdf-tools":
+          "Comprehensive PDF utilities for merging, splitting, and converting PDF files online.",
+        "color-picker":
+          "Advanced color picker and palette generator for designers and developers.",
+        "url-shortener":
+          "Create short, memorable URLs for your links with detailed analytics.",
+        "password-generator":
+          "Generate strong, secure passwords with customizable options.",
       };
-      return descriptions[serviceName] || `${serviceName.charAt(0).toUpperCase() + serviceName.slice(1).replace('-', ' ')} - A powerful online utility tool designed for productivity and ease of use.`;
+      return (
+        descriptions[serviceName] ||
+        `${
+          serviceName.charAt(0).toUpperCase() +
+          serviceName.slice(1).replace("-", " ")
+        } - A powerful online utility tool designed for productivity and ease of use.`
+      );
     }
 
     // CSS 템플릿 생성 (SEO 최적화 및 접근성)
@@ -234,7 +250,7 @@ body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     line-height: 1.6;
     color: #333;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 50%, #a8e6cf 100%);
     min-height: 100vh;
 }
 
@@ -333,20 +349,33 @@ body {
 }
 
 .feature-card {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 40px rgba(255, 107, 107, 0.2);
     transition: all 0.3s ease;
     color: white;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ff6b6b 0%, #ffa726 50%, #a8e6cf 100%);
 }
 
 .feature-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(255, 164, 38, 0.3);
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .feature-card h3 {
@@ -389,20 +418,21 @@ body {
     align-items: center;
     justify-content: center;
     padding: 1rem 2rem;
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
     color: white;
     border: none;
-    border-radius: 0.75rem;
+    border-radius: 2rem;
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+    box-shadow: 0 4px 15px rgba(255, 164, 38, 0.4);
 }
 
 .cta-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
+    box-shadow: 0 8px 25px rgba(255, 164, 38, 0.5);
+    background: linear-gradient(135deg, #ff5252 0%, #ff9800 100%);
 }
 
 /* Footer */
@@ -475,7 +505,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });`;
 
     // 파일들 생성
-    await fs.writeFile(path.join(serviceDir, "src", "index.html"), htmlTemplate);
+    await fs.writeFile(
+      path.join(serviceDir, "src", "index.html"),
+      htmlTemplate
+    );
     await fs.writeFile(path.join(serviceDir, "src", "style.css"), cssTemplate);
     await fs.writeFile(path.join(serviceDir, "src", "script.ts"), tsTemplate);
 

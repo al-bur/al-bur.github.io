@@ -4,8 +4,8 @@
   "description": "Free online tools and utilities including QR code scanner, file converters, and productivity applications",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#667eea",
-  "theme_color": "#667eea",
+  "background_color": "#ff6b6b",
+  "theme_color": "#ff6b6b",
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "en-US",
@@ -46,7 +46,7 @@
       "label": "Al-bur Services on desktop"
     },
     {
-      "src": "/screenshots/mobile.png", 
+      "src": "/screenshots/mobile.png",
       "sizes": "390x844",
       "type": "image/png",
       "form_factor": "narrow",
