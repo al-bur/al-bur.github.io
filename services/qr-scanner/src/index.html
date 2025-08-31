@@ -1,18 +1,88 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Scanner - Al-bur Services</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>QR Scanner - Free Online QR Code Reader | Al-bur Services</title>
+    <meta name="title" content="QR Scanner - Free Online QR Code Reader | Al-bur Services">
+    <meta name="description" content="Free online QR code scanner and reader. Scan QR codes using camera or upload image files. Fast, secure, and mobile-friendly.">
+    <meta name="keywords" content="qr scanner, qr code reader, online qr scanner, free qr scanner, camera qr scanner, upload qr scanner">
+    <meta name="author" content="Al-bur">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://al-bur.github.io/qr-scanner/">
+    <meta property="og:title" content="QR Scanner - Free Online QR Code Reader">
+    <meta property="og:description" content="Free online QR code scanner and reader. Scan QR codes using camera or upload image files. Fast, secure, and mobile-friendly.">
+    <meta property="og:image" content="https://al-bur.github.io/assets/qr-scanner-og.jpg">
+    <meta property="og:site_name" content="Al-bur Services">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://al-bur.github.io/qr-scanner/">
+    <meta property="twitter:title" content="QR Scanner - Free Online QR Code Reader">
+    <meta property="twitter:description" content="Free online QR code scanner and reader. Scan QR codes using camera or upload image files. Fast, secure, and mobile-friendly.">
+    <meta property="twitter:image" content="https://al-bur.github.io/assets/qr-scanner-twitter.jpg">
+    
+    <!-- Canonical and Alternate Languages -->
+    <link rel="canonical" href="https://al-bur.github.io/qr-scanner/">
+    <link rel="alternate" hreflang="en" href="https://al-bur.github.io/qr-scanner/">
+    <link rel="alternate" hreflang="x-default" href="https://al-bur.github.io/qr-scanner/">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="stylesheet" href="./style.css">
+    <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "QR Scanner",
+      "description": "Free online QR code scanner and reader. Scan QR codes using camera or upload image files. Fast, secure, and mobile-friendly.",
+      "url": "https://al-bur.github.io/qr-scanner/",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires HTML5 support and camera access",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Al-bur Services",
+        "url": "https://al-bur.github.io/"
+      },
+      "dateModified": "2025-08-31T00:00:00Z",
+      "inLanguage": "en-US",
+      "featureList": [
+        "Camera-based QR code scanning",
+        "File upload QR code reading",
+        "Real-time QR code detection",
+        "Copy results to clipboard",
+        "Mobile-friendly interface"
+      ]
+    }
+    </script>
 </head>
 <body>
-    <nav class="navbar">
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="sr-only">Skip to main content</a>
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
         <div class="nav-content">
-            <a href="../" class="nav-home">← Home</a>
+            <a href="../" class="nav-home" aria-label="Go back to Al-bur Services homepage">← Home</a>
             <h1 class="nav-title">📱 QR Scanner</h1>
             <div class="nav-controls">
                 <button class="btn btn-ghost btn-sm" id="camera-mode">📷 Camera</button>
@@ -21,7 +91,7 @@
         </div>
     </nav>
 
-    <main class="main-container">
+    <main id="main-content" class="main-container" role="main">
         <!-- Welcome Screen -->
         <div id="welcome-screen" class="screen">
             <div class="card glass-card">

@@ -33,6 +33,10 @@ async function buildAll() {
       }
     }
 
+    // public 폴더의 파일들 복사 (robots.txt, sitemap.xml, favicon, manifest 등)
+    await copyPublicFiles();
+    console.log("✅ 공개 파일 복사 완료");
+
     // 메인 index.html 생성
     await createMainPage(services);
     console.log("✅ 메인 페이지 생성 완료");
@@ -179,13 +183,147 @@ async function copySharedFiles(outputDir) {
   }
 }
 
+function getServiceDescription(serviceName) {
+  const descriptions = {
+    'qr-scanner': 'Free online QR code scanner and reader. Scan QR codes using camera or upload image files. Fast, secure, and mobile-friendly.',
+    'file-converter': 'Convert files between different formats quickly and securely. Support for images, documents, and media files.',
+    'text-tools': 'Essential text utilities including word counter, case converter, and text formatting tools for productivity.',
+    'image-optimizer': 'Optimize and compress images without losing quality. Perfect for web developers and content creators.'
+  };
+  return descriptions[serviceName] || `${serviceName.charAt(0).toUpperCase() + serviceName.slice(1)} - A powerful online utility tool for your productivity needs.`;
+}
+
+function getServiceIcon(serviceName) {
+  const icons = {
+    'qr-scanner': '📱',
+    'file-converter': '🔄',
+    'text-tools': '📝',
+    'image-optimizer': '🖼️',
+    'pdf-tools': '📄',
+    'color-picker': '🎨',
+    'url-shortener': '🔗',
+    'password-generator': '🔐'
+  };
+  return icons[serviceName] || '🛠️';
+}
+
 async function createMainPage(services) {
+  const currentDate = new Date().toISOString();
+  const servicesList = services.map(service => ({
+    name: service,
+    url: `https://al-bur.github.io/${service}/`,
+    description: getServiceDescription(service)
+  }));
+
   const mainHtml = `<!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Al-bur Services</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>Al-bur Services - Free Online Tools & Utilities | QR Scanner, Converter Tools</title>
+    <meta name="title" content="Al-bur Services - Free Online Tools & Utilities | QR Scanner, Converter Tools">
+    <meta name="description" content="Discover powerful free online tools including QR code scanner, file converters, and productivity utilities. Fast, secure, and mobile-friendly web applications for global users.">
+    <meta name="keywords" content="QR scanner, QR code reader, online tools, free utilities, web apps, file converter, productivity tools, mobile scanner">
+    <meta name="author" content="Al-bur">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="1 days">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://al-bur.github.io/">
+    <meta property="og:title" content="Al-bur Services - Free Online Tools & Utilities">
+    <meta property="og:description" content="Discover powerful free online tools including QR code scanner, file converters, and productivity utilities. Fast, secure, and mobile-friendly.">
+    <meta property="og:image" content="https://al-bur.github.io/assets/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Al-bur Services">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://al-bur.github.io/">
+    <meta property="twitter:title" content="Al-bur Services - Free Online Tools & Utilities">
+    <meta property="twitter:description" content="Discover powerful free online tools including QR code scanner, file converters, and productivity utilities. Fast, secure, and mobile-friendly.">
+    <meta property="twitter:image" content="https://al-bur.github.io/assets/twitter-image.jpg">
+    <meta name="twitter:image:alt" content="Al-bur Services - Free Online Tools">
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="msapplication-TileColor" content="#667eea">
+    <meta name="application-name" content="Al-bur Services">
+    <meta name="apple-mobile-web-app-title" content="Al-bur Services">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://al-bur.github.io/">
+    
+    <!-- Alternative Languages -->
+    <link rel="alternate" hreflang="en" href="https://al-bur.github.io/">
+    <link rel="alternate" hreflang="ko" href="https://al-bur.github.io/ko/">
+    <link rel="alternate" hreflang="ja" href="https://al-bur.github.io/ja/">
+    <link rel="alternate" hreflang="zh" href="https://al-bur.github.io/zh/">
+    <link rel="alternate" hreflang="es" href="https://al-bur.github.io/es/">
+    <link rel="alternate" hreflang="fr" href="https://al-bur.github.io/fr/">
+    <link rel="alternate" hreflang="de" href="https://al-bur.github.io/de/">
+    <link rel="alternate" hreflang="x-default" href="https://al-bur.github.io/">
+    
+    <!-- Favicon and Icons -->
+    <link rel="icon" href="/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Al-bur Services",
+      "description": "Free online tools and utilities including QR code scanner, file converters, and productivity applications",
+      "url": "https://al-bur.github.io/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://al-bur.github.io/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Al-bur",
+        "url": "https://al-bur.github.io/"
+      },
+      "dateModified": "${currentDate}",
+      "inLanguage": "en-US",
+      "mainEntity": [
+        ${servicesList.map(service => `{
+          "@type": "WebApplication",
+          "name": "${service.name.charAt(0).toUpperCase() + service.name.slice(1)} Tool",
+          "description": "${service.description}",
+          "url": "${service.url}",
+          "applicationCategory": "UtilitiesApplication",
+          "operatingSystem": "Any",
+          "browserRequirements": "Requires HTML5 support",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          }
+        }`).join(',\n        ')}
+      ]
+    }
+    </script>
     <style>
         * {
             margin: 0;
@@ -302,24 +440,90 @@ async function createMainPage(services) {
                 grid-template-columns: 1fr;
             }
         }
+        
+        /* Additional SEO-friendly styles */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .hero-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+        
+        .features-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            opacity: 0.9;
+        }
+        
+        .service-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .service-description {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="sr-only">Skip to main content</a>
+    
     <div class="container">
         <header class="header">
             <h1>🚀 Al-bur Services</h1>
-            <p>다양한 웹 서비스들을 한 곳에서 만나보세요</p>
+            <p>Free Online Tools & Utilities for Everyone</p>
         </header>
+        
+        <section class="hero-section">
+            <h2>Powerful Web Applications at Your Fingertips</h2>
+            <div class="features-list">
+                <div class="feature-item">
+                    <span>⚡</span>
+                    <span>Fast & Secure</span>
+                </div>
+                <div class="feature-item">
+                    <span>📱</span>
+                    <span>Mobile Friendly</span>
+                </div>
+                <div class="feature-item">
+                    <span>🔒</span>
+                    <span>Privacy First</span>
+                </div>
+                <div class="feature-item">
+                    <span>🌍</span>
+                    <span>Works Globally</span>
+                </div>
+            </div>
+        </section>
 
-        <main class="services-grid">
-            ${services
+        <main id="main-content" class="services-grid" role="main">
+            ${servicesList
               .map(
                 (service) => `
-            <div class="service-card">
-                <h3>${service}</h3>
-                <p>${service} 서비스에 대한 설명입니다. 클릭하여 접속해보세요.</p>
-                <a href="./${service}/" class="service-link">서비스 접속 →</a>
-            </div>
+            <article class="service-card" itemscope itemtype="https://schema.org/WebApplication">
+                <div class="service-icon">${getServiceIcon(service.name)}</div>
+                <h3 itemprop="name">${service.name.charAt(0).toUpperCase() + service.name.slice(1).replace('-', ' ')}</h3>
+                <p class="service-description" itemprop="description">${service.description}</p>
+                <a href="./${service.name}/" class="service-link" itemprop="url" aria-label="Open ${service.name} tool">
+                    Launch Tool →
+                </a>
+            </article>
             `
               )
               .join("")}
@@ -327,22 +531,27 @@ async function createMainPage(services) {
             ${
               services.length === 0
                 ? `
-            <div class="service-card">
-                <h3>서비스 준비 중</h3>
-                <p>아직 생성된 서비스가 없습니다. 새 서비스를 생성해보세요!</p>
-                <code style="background: #f1f5f9; padding: 0.5rem; border-radius: 0.25rem; display: block; margin-top: 1rem;">
-                    pnpm create-service my-service
-                </code>
-            </div>
+            <article class="service-card">
+                <div class="service-icon">🔧</div>
+                <h3>Services Coming Soon</h3>
+                <p class="service-description">We're preparing amazing tools for you. Check back soon for new utilities and applications!</p>
+                <button class="service-link" disabled>Coming Soon</button>
+            </article>
             `
                 : ""
             }
         </main>
 
-        <footer class="footer">
+        <footer class="footer" role="contentinfo">
             <p>
-                Powered by <a href="https://pages.github.com/" class="github-link">GitHub Pages</a> 
-                | Built with ❤️ using pnpm
+                <span>© 2025 Al-bur Services</span> | 
+                <a href="https://pages.github.com/" class="github-link" rel="noopener">GitHub Pages</a> | 
+                <span>Built with ❤️ for global users</span>
+            </p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.7;">
+                <a href="#" class="github-link">Privacy Policy</a> | 
+                <a href="#" class="github-link">Terms of Service</a> |
+                <a href="#" class="github-link">Contact Us</a>
             </p>
         </footer>
     </div>
@@ -384,6 +593,30 @@ async function createMainPage(services) {
 </html>`;
 
   await fs.writeFile(path.join("dist", "index.html"), mainHtml);
+}
+
+async function copyPublicFiles() {
+  const publicDir = path.join(process.cwd(), "public");
+  const distDir = path.join(process.cwd(), "dist");
+  
+  // public 디렉토리가 존재하는지 확인
+  if (!(await fs.pathExists(publicDir))) {
+    return;
+  }
+  
+  try {
+    // public 디렉토리의 모든 파일을 dist로 복사
+    await fs.copy(publicDir, distDir, {
+      overwrite: true,
+      filter: (src, dest) => {
+        // 숨겨진 파일이나 .DS_Store는 제외
+        const filename = path.basename(src);
+        return !filename.startsWith('.') && filename !== '.DS_Store';
+      }
+    });
+  } catch (error) {
+    console.warn("공개 파일 복사 중 오류:", error.message);
+  }
 }
 
 // 특정 서비스만 빌드하는 경우

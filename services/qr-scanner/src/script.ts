@@ -6,7 +6,7 @@ interface ScanResult {
 }
 
 class QRScannerApp {
-    private currentScreen: string = 'welcome';
+    private currentScreen = 'welcome';
     private scanMode: 'camera' | 'file' = 'camera';
     private codeReader: any = null;
     private stream: MediaStream | null = null;
@@ -120,7 +120,7 @@ class QRScannerApp {
         this.hideError();
     }
 
-    private showLoading(show: boolean, message: string = 'Loading...'): void {
+    private showLoading(show: boolean, message = 'Loading...'): void {
         const loadingOverlay = document.getElementById('loading-overlay') as HTMLElement;
         const loadingText = document.querySelector('.loading-text') as HTMLElement;
 
