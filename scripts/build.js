@@ -48,42 +48,59 @@ async function buildService(serviceName) {
   const serviceDir = path.join("services", serviceName, "src");
   const outputDir = path.join("dist", serviceName);
   const tsConfigPath = path.join("services", serviceName, "tsconfig.json");
+  const viteConfigPath = path.join("services", serviceName, "vite.config.ts");
+  const packageJsonPath = path.join("services", serviceName, "package.json");
 
-  // 출력 디렉토리 생성
-  await fs.ensureDir(outputDir);
-
-  if (await fs.pathExists(serviceDir)) {
-    // TypeScript 파일이 있는지 확인
-    const hasTsFiles = await checkForTsFiles(serviceDir);
-
-    if (hasTsFiles && (await fs.pathExists(tsConfigPath))) {
-      console.log(`🔄 ${serviceName}: TypeScript 컴파일 중...`);
-      try {
-        // TypeScript 컴파일
-        execSync(`npx tsc -p services/${serviceName}/tsconfig.json`, {
-          stdio: "inherit",
-          cwd: process.cwd(),
-        });
-
-        // HTML과 CSS 파일은 별도로 복사
-        await copyNonTsFiles(serviceDir, outputDir);
-      } catch (error) {
-        console.error(`❌ ${serviceName}: TypeScript 컴파일 실패`);
-        throw error;
-      }
-    } else {
-      // TypeScript가 없으면 기존 방식으로 복사
-      await fs.copy(serviceDir, outputDir);
-    }
-
-    // shared 폴더를 각 서비스에 복사 (빌드 완료 후)
-    const distSharedDir = path.join(process.cwd(), "dist", "shared");
-    if (await fs.pathExists(distSharedDir)) {
-      const serviceSharedDir = path.join(outputDir, "shared");
-      await fs.copy(distSharedDir, serviceSharedDir);
+  // Vite 기반 서비스인지 확인
+  if (await fs.pathExists(viteConfigPath)) {
+    console.log(`🔄 ${serviceName}: Vite 빌드 중...`);
+    try {
+      // Vite build command 실행
+      execSync(`pnpm run build`, {
+        stdio: "inherit",
+        cwd: path.join(process.cwd(), "services", serviceName),
+      });
+    } catch (error) {
+      console.error(`❌ ${serviceName}: Vite 빌드 실패`);
+      throw error;
     }
   } else {
-    console.warn(`⚠️  ${serviceName}의 src 폴더를 찾을 수 없습니다.`);
+    // 기존 방식 (TypeScript + 파일 복사)
+    await fs.ensureDir(outputDir);
+
+    if (await fs.pathExists(serviceDir)) {
+      // TypeScript 파일이 있는지 확인
+      const hasTsFiles = await checkForTsFiles(serviceDir);
+
+      if (hasTsFiles && (await fs.pathExists(tsConfigPath))) {
+        console.log(`🔄 ${serviceName}: TypeScript 컴파일 중...`);
+        try {
+          // TypeScript 컴파일
+          execSync(`npx tsc -p services/${serviceName}/tsconfig.json`, {
+            stdio: "inherit",
+            cwd: process.cwd(),
+          });
+
+          // HTML과 CSS 파일은 별도로 복사
+          await copyNonTsFiles(serviceDir, outputDir);
+        } catch (error) {
+          console.error(`❌ ${serviceName}: TypeScript 컴파일 실패`);
+          throw error;
+        }
+      } else {
+        // TypeScript가 없으면 기존 방식으로 복사
+        await fs.copy(serviceDir, outputDir);
+      }
+    } else {
+      console.warn(`⚠️  ${serviceName}의 src 폴더를 찾을 수 없습니다.`);
+    }
+  }
+
+  // shared 폴더를 각 서비스에 복사 (빌드 완료 후)
+  const distSharedDir = path.join(process.cwd(), "dist", "shared");
+  if (await fs.pathExists(distSharedDir)) {
+    const serviceSharedDir = path.join(outputDir, "shared");
+    await fs.copy(distSharedDir, serviceSharedDir);
   }
 }
 
