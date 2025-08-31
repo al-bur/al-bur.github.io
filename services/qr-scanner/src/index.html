@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Scanner - Al-bur Services</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="../" class="nav-home">← Home</a>
+            <h1 class="nav-title">📱 QR Scanner</h1>
+            <div class="nav-controls">
+                <button class="btn btn-ghost btn-sm" id="camera-mode">📷 Camera</button>
+                <button class="btn btn-ghost btn-sm" id="file-mode">📁 File</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="screen">
+            <div class="card glass-card">
+                <div class="card-body">
+                    <div class="welcome-icon">📱</div>
+                    <h2 class="welcome-title">QR Code Scanner</h2>
+                    <p class="welcome-description">
+                        Scan QR codes using your camera or upload an image file
+                    </p>
+                    
+                    <button class="btn btn-primary btn-lg" id="start-scan">
+                        🔍 Start Scanning
+                    </button>
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <div class="card glass-card feature-card">
+                    <div class="card-body">
+                        <div class="feature-icon">📷</div>
+                        <h3 class="feature-title">Camera Scan</h3>
+                        <p class="feature-description">
+                            Use your device camera to scan QR codes in real-time
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card glass-card feature-card">
+                    <div class="card-body">
+                        <div class="feature-icon">📁</div>
+                        <h3 class="feature-title">File Upload</h3>
+                        <p class="feature-description">
+                            Upload an image file containing a QR code to decode
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Camera Scanner -->
+        <div id="camera-screen" class="screen hidden">
+            <div class="card glass-card scanner-card">
+                <div class="card-body">
+                    <div class="camera-container">
+                        <video id="camera-video" autoplay playsinline muted></video>
+                        <div class="scan-overlay">
+                            <div class="scan-frame">
+                                <div class="scan-line"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scanner-info">
+                        <h3>Point your camera at a QR code</h3>
+                        <p>Position the QR code within the frame to scan automatically</p>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-danger" id="stop-camera">Cancel</button>
+        </div>
+
+        <!-- File Upload -->
+        <div id="file-screen" class="screen hidden">
+            <div class="card glass-card">
+                <div class="card-body">
+                    <div class="file-drop-zone" id="file-drop">
+                        <input type="file" id="file-input" accept="image/*" hidden>
+                        <div class="file-upload-content">
+                            <div class="file-icon">📁</div>
+                            <h3>Upload QR Code Image</h3>
+                            <p>Drag and drop an image here, or click to browse</p>
+                            <button class="btn btn-primary">📤 Choose Image</button>
+                            <div class="file-info">Supports PNG, JPG, GIF • Max 10MB</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-secondary" id="back-from-file">Back</button>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="screen hidden">
+            <div class="card glass-card result-card">
+                <div class="card-body">
+                    <div class="success-icon">✅</div>
+                    <h2>QR Code Scanned Successfully!</h2>
+                    
+                    <div class="result-type">
+                        <span class="chip" id="result-type-chip">📝 Text</span>
+                    </div>
+
+                    <div class="result-content">
+                        <div class="result-text" id="result-text"></div>
+                    </div>
+
+                    <div class="result-actions">
+                        <button class="btn btn-success" id="copy-result">📋 Copy</button>
+                        <button class="btn btn-primary" id="action-result" style="display: none;"></button>
+                    </div>
+
+                    <div class="result-timestamp" id="result-timestamp"></div>
+
+                    <div class="result-controls">
+                        <button class="btn btn-primary btn-lg" id="scan-again">🔍 Scan Another</button>
+                        <button class="btn btn-ghost" id="reset-app">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Display -->
+        <div id="error-display" class="error-banner hidden">
+            <div class="error-content">
+                <span class="error-icon">❌</span>
+                <span class="error-message" id="error-message"></span>
+                <button class="btn btn-ghost btn-sm" id="dismiss-error">Try Again</button>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" class="loading-overlay hidden">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Initializing camera...</p>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/@zxing/library@latest/umd/index.min.js"></script>
+    <script src="./script.js"></script>
+    
+    <!-- GA4 Analytics 자동 로드 -->
+    <script type="module" src="./shared/analytics/ga4-init.js"></script>
+    <script type="module" src="./shared/analytics/ga4-helpers.js"></script>
+</body>
+</html>
