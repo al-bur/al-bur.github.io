@@ -345,7 +345,7 @@ async function createMainPage(services) {
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 50%, #a8e6cf 100%);
+            background: #ffffff;
             min-height: 100vh;
             color: #333;
         }
@@ -359,18 +359,24 @@ async function createMainPage(services) {
         .header {
             text-align: center;
             margin-bottom: 3rem;
-            color: white;
+            color: #333;
+            padding: 3rem 0;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 50%, #a8e6cf 100%);
+            background: -webkit-linear-gradient(135deg, #ff6b6b, #ffa726, #a8e6cf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .header h1 {
             font-size: 3rem;
             margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         .header p {
             font-size: 1.2rem;
-            opacity: 0.9;
+            opacity: 0.8;
+            color: #666;
         }
 
         .services-grid {
@@ -441,18 +447,19 @@ async function createMainPage(services) {
 
         .footer {
             text-align: center;
-            color: white;
+            color: #666;
             opacity: 0.8;
             margin-top: 2rem;
         }
 
         .github-link {
-            color: white;
+            color: #ff6b6b;
             text-decoration: none;
             font-weight: 500;
         }
 
         .github-link:hover {
+            color: #ff5252;
             text-decoration: underline;
         }
 
@@ -480,6 +487,7 @@ async function createMainPage(services) {
             font-size: 1.5rem;
             margin-bottom: 1rem;
             font-weight: 400;
+            color: #333;
         }
         
         .features-list {
@@ -494,7 +502,7 @@ async function createMainPage(services) {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: white;
+            color: #666;
             opacity: 0.9;
         }
         

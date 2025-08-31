@@ -245,7 +245,7 @@ body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     line-height: 1.6;
     color: #333;
-    background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 50%, #a8e6cf 100%);
+    background: #ffffff;
     min-height: 100vh;
 }
 
@@ -270,9 +270,9 @@ body {
 
 /* Navigation */
 .nav {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 107, 107, 0.1);
     padding: 1rem 2rem;
     display: flex;
     align-items: center;
@@ -280,10 +280,11 @@ body {
     position: sticky;
     top: 0;
     z-index: 100;
+    box-shadow: 0 2px 10px rgba(255, 107, 107, 0.1);
 }
 
 .nav-home {
-    color: white;
+    color: #ff6b6b;
     text-decoration: none;
     font-weight: 500;
     padding: 0.5rem 1rem;
@@ -292,12 +293,12 @@ body {
 }
 
 .nav-home:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
+    background: rgba(255, 107, 107, 0.1);
+    color: #ff5252;
 }
 
 .nav h1 {
-    color: white;
+    color: #333;
     font-size: 1.5rem;
     font-weight: 600;
 }
@@ -316,20 +317,26 @@ body {
 .container header {
     text-align: center;
     margin-bottom: 3rem;
-    color: white;
+    color: #333;
+    padding: 2rem 0;
 }
 
 .container h2 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
     font-weight: 700;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 50%, #a8e6cf 100%);
+    background: -webkit-linear-gradient(135deg, #ff6b6b, #ffa726, #a8e6cf);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .service-intro {
     font-size: 1.2rem;
     margin-bottom: 2rem;
-    opacity: 0.9;
+    opacity: 0.8;
+    color: #666;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
@@ -344,14 +351,14 @@ body {
 }
 
 .feature-card {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 107, 107, 0.1);
     padding: 2rem;
     border-radius: 1.5rem;
-    box-shadow: 0 10px 40px rgba(255, 107, 107, 0.2);
+    box-shadow: 0 10px 40px rgba(255, 107, 107, 0.15);
     transition: all 0.3s ease;
-    color: white;
+    color: #333;
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -370,17 +377,19 @@ body {
 .feature-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 20px 50px rgba(255, 164, 38, 0.3);
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 1);
 }
 
 .feature-card h3 {
     font-size: 1.3rem;
     margin-bottom: 1rem;
     font-weight: 600;
+    color: #ff6b6b;
 }
 
 .feature-card p {
-    opacity: 0.9;
+    opacity: 0.8;
+    color: #666;
     line-height: 1.6;
 }
 
@@ -388,24 +397,27 @@ body {
 .cta-section {
     text-align: center;
     padding: 3rem 2rem;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 1rem;
     backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
+    border: 1px solid rgba(255, 107, 107, 0.1);
+    color: #333;
     margin-bottom: 2rem;
+    box-shadow: 0 10px 40px rgba(255, 107, 107, 0.1);
 }
 
 .cta-section h3 {
     font-size: 1.8rem;
     margin-bottom: 1rem;
     font-weight: 600;
+    color: #ff6b6b;
 }
 
 .cta-section p {
     font-size: 1.1rem;
     margin-bottom: 2rem;
-    opacity: 0.9;
+    opacity: 0.8;
+    color: #666;
 }
 
 .cta-button {
@@ -434,20 +446,21 @@ body {
 .footer {
     text-align: center;
     padding: 2rem;
-    color: white;
+    color: #666;
     opacity: 0.8;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 107, 107, 0.1);
 }
 
 .footer-link {
-    color: white;
+    color: #ff6b6b;
     text-decoration: none;
     font-weight: 500;
-    transition: opacity 0.2s;
+    transition: all 0.2s;
 }
 
 .footer-link:hover {
-    opacity: 0.8;
+    color: #ff5252;
+    text-decoration: underline;
 }
 
 /* Responsive Design */

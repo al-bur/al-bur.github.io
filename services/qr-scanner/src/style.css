@@ -10,19 +10,21 @@ body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-weight: 400;
     line-height: 1.6;
-    background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 50%, #a8e6cf 100%);
+    background: #ffffff;
+    color: #333;
     min-height: 100vh;
 }
 
 /* Navbar */
 .navbar {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 107, 107, 0.1);
     padding: 1rem 2rem;
     position: sticky;
     top: 0;
     z-index: 100;
+    box-shadow: 0 2px 10px rgba(255, 107, 107, 0.1);
 }
 
 .nav-content {
@@ -34,7 +36,7 @@ body {
 }
 
 .nav-home {
-    color: white;
+    color: #ff6b6b;
     text-decoration: none;
     font-weight: 500;
     padding: 0.5rem 1rem;
@@ -43,12 +45,12 @@ body {
 }
 
 .nav-home:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
+    background: rgba(255, 107, 107, 0.1);
+    color: #ff5252;
 }
 
 .nav-title {
-    color: white;
+    color: #333;
     font-size: 1.25rem;
     font-weight: 600;
 }
