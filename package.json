@@ -1,0 +1,40 @@
+{
+  "name": "al-bur-github-pages",
+  "version": "1.0.0",
+  "description": "Multi-service GitHub Pages monorepo",
+  "private": true,
+  "scripts": {
+    "create-service": "node scripts/create-service.js",
+    "dev": "node scripts/dev.js",
+    "dev:all": "node scripts/dev.js all",
+    "build": "node scripts/build.js",
+    "build:service": "node scripts/build.js",
+    "serve": "http-server dist -p 8080 -o",
+    "clean": "rimraf dist",
+    "install:all": "pnpm install",
+    "build:all": "pnpm -r build",
+    "preview": "pnpm build && pnpm serve",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "format": "biome format .",
+    "format:write": "biome format --write .",
+    "check": "biome check .",
+    "check:fix": "biome check --write .",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "tsc --noEmit --watch"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
+    "typescript": "^5.5.0",
+    "http-server": "^14.1.1",
+    "rimraf": "^5.0.1",
+    "fs-extra": "^11.1.1",
+    "chokidar": "^3.5.3",
+    "@types/node": "^20.14.0",
+    "@types/fs-extra": "^11.0.4"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "packageManager": "pnpm@8.15.0"
+}
