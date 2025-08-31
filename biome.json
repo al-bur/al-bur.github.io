@@ -40,8 +40,7 @@
       "semicolons": "always",
       "arrowParentheses": "always",
       "bracketSameLine": false,
-      "bracketSpacing": true,
-      "quoteStyle": "single"
+      "bracketSpacing": true
     }
   },
   "json": {

@@ -20,6 +20,13 @@ al-bur.github.io/
 │   │   ├── package.json  # 서비스별 설정
 │   │   └── tsconfig.json # 서비스별 TypeScript 설정
 │   └── todo-app/         # 할일 관리 서비스
+├── shared/               # 공통 코드 (모든 서비스에서 사용)
+│   ├── analytics/        # GA4 Analytics 관련 유틸리티
+│   │   ├── ga4-config.ts    # GA4 설정 (측정 ID: G-SMD74FQLV1)
+│   │   ├── ga4-init.ts      # GA4 초기화 스크립트
+│   │   └── ga4-helpers.ts   # 자동 추적 헬퍼 함수
+│   ├── package.json      # shared 폴더 패키지 설정
+│   └── tsconfig.json     # shared 폴더 TypeScript 설정
 ├── dist/                 # 빌드된 정적 파일 (GitHub Pages 배포용)
 ├── scripts/              # 유틸리티 스크립트
 │   ├── create-service.js # 새 서비스 생성 스크립트
@@ -133,10 +140,18 @@ git add . && git commit -m "feat: ..." && git push
   - Template literal 권장
 
 ### 빌드 프로세스
-1. **TypeScript 컴파일**: `.ts` 파일을 `.js`로 변환
-2. **파일 복사**: HTML, CSS 등 정적 파일 복사
-3. **메인 페이지 생성**: 모든 서비스 목록을 포함한 `dist/index.html` 생성
-4. **GitHub Pages 배포**: `dist/` 폴더를 `gh-pages` 브랜치에 배포
+1. **shared 폴더 빌드**: 공통 코드 먼저 컴파일 (`dist/shared/`)
+2. **TypeScript 컴파일**: 서비스별 `.ts` 파일을 `.js`로 변환
+3. **파일 복사**: HTML, CSS 등 정적 파일 복사
+4. **shared 코드 배포**: 각 서비스에 `shared/` 폴더 복사
+5. **메인 페이지 생성**: 모든 서비스 목록을 포함한 `dist/index.html` 생성
+6. **GitHub Pages 배포**: `dist/` 폴더를 `gh-pages` 브랜치에 배포
+
+### shared 폴더 시스템
+- **목적**: 모든 서비스에서 공통으로 사용하는 코드 관리
+- **컴파일**: 빌드 시 `shared/` → `dist/shared/`로 컴파일
+- **배포**: 각 서비스 디렉토리에 `shared/` 폴더 복사
+- **접근**: 서비스에서 `./shared/` 경로로 import 가능
 
 ### 개발 서버
 - **파일 감시**: 소스 파일 변경 시 자동 리빌드
@@ -191,6 +206,10 @@ document.addEventListener('DOMContentLoaded', (): void => {
     </main>
 
     <script src="./script.js"></script>
+    
+    <!-- GA4 Analytics 자동 로드 -->
+    <script type="module" src="./shared/analytics/ga4-init.js"></script>
+    <script type="module" src="./shared/analytics/ga4-helpers.js"></script>
 </body>
 </html>
 ```
@@ -227,22 +246,52 @@ document.addEventListener('DOMContentLoaded', (): void => {
 - **전제조건**: 모든 검사 통과
 - **결과**: `https://al-bur.github.io` 업데이트
 
+## 📊 GA4 Analytics 시스템
+
+### 자동 추적 기능
+- **페이지뷰**: 모든 서비스 자동 추적
+- **이벤트 추적**: 버튼 클릭, 링크 클릭, 폼 제출 자동 감지
+- **카드 클릭**: `.service-card`, `.feature-card` 등 자동 추적
+- **네비게이션**: 서비스 간 이동 추적
+
+### 설정
+- **측정 ID**: `G-SMD74FQLV1` (자동 설정됨)
+- **환경 필터링**: 로컬/개발 환경에서는 비활성화
+- **동적 로드**: 새 서비스 추가 시 수동 설정 불필요
+
+### 사용법
+```javascript
+// 커스텀 이벤트 추가 (선택사항)
+import { trackEvent, trackPageView } from './shared/analytics/ga4-helpers.js';
+
+// 커스텀 이벤트 추적
+trackEvent('custom_action', {
+  custom_parameter: 'value'
+});
+
+// 페이지뷰 추적 (자동이지만 수동으로도 가능)
+trackPageView('/custom-path');
+```
+
 ## 💡 팁
 
 ### 디버깅
 - **소스맵 활용**: TypeScript 디버깅 지원
 - **개발 도구**: 브라우저 DevTools 사용
 - **로그**: 개발 모드에서만 console.log 사용
+- **GA4 디버깅**: `gtag('config', 'GA_MEASUREMENT_ID', { debug_mode: true })`
 
 ### 성능
 - **번들 크기**: 각 서비스 독립적으로 로드
 - **캐싱**: GitHub Pages 자동 캐싱 활용
 - **이미지**: 최적화된 이미지 사용 권장
+- **공통 코드**: shared 폴더로 중복 제거
 
 ### 확장성
 - **서비스 분리**: 각 서비스는 완전히 독립적
-- **공통 컴포넌트**: 필요시 공유 라이브러리 고려
+- **공통 컴포넌트**: shared 폴더 활용
 - **상태 관리**: 서비스 간 상태 공유 최소화
+- **Analytics**: 새 서비스 추가 시 자동으로 추적 설정
 
 ---
 

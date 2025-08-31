@@ -1,8 +1,8 @@
 // GA4 Auto-Initialization System
-import { GA4_CONFIG, GA4_CUSTOM_DIMENSIONS, GA4_EVENTS } from './ga4-config.js';
+import { GA4_CONFIG, GA4_CUSTOM_DIMENSIONS, GA4_EVENTS } from "./ga4-config.js";
 
 type GtagArgs = [
-  command: 'js' | 'config' | 'event',
+  command: "js" | "config" | "event",
   targetId?: string | Date,
   config?: Record<string, unknown>,
 ];
@@ -35,19 +35,19 @@ export class GA4Analytics {
     const path = window.location.pathname;
 
     // 메인 페이지인 경우
-    if (path === '/' || path === '/index.html') {
-      return 'main';
+    if (path === "/" || path === "/index.html") {
+      return "main";
     }
 
     // 서비스 페이지인 경우 (/service-name/ 형태)
     const matches = path.match(/^\/([^\/]+)\/?/);
-    return matches ? matches[1] : 'unknown';
+    return matches ? matches[1] : "unknown";
   }
 
   public async init(): Promise<void> {
     if (this.isInitialized || !GA4_CONFIG.enabled) {
       if (GA4_CONFIG.debugMode) {
-        console.log('[GA4] Skipping initialization:', {
+        console.log("[GA4] Skipping initialization:", {
           isInitialized: this.isInitialized,
           enabled: GA4_CONFIG.enabled,
           hostname: window.location.hostname,
@@ -67,13 +67,13 @@ export class GA4Analytics {
       };
 
       // GA4 설정
-      window.gtag('js', new Date());
-      window.gtag('config', GA4_CONFIG.measurementId, {
+      window.gtag("js", new Date());
+      window.gtag("config", GA4_CONFIG.measurementId, {
         debug_mode: GA4_CONFIG.debugMode,
         send_page_view: false, // 수동으로 페이지뷰 관리
         custom_map: {
-          [GA4_CUSTOM_DIMENSIONS.SERVICE_NAME]: 'service_name',
-          [GA4_CUSTOM_DIMENSIONS.PAGE_TYPE]: 'page_type',
+          [GA4_CUSTOM_DIMENSIONS.SERVICE_NAME]: "service_name",
+          [GA4_CUSTOM_DIMENSIONS.PAGE_TYPE]: "page_type",
         },
       });
 
@@ -86,10 +86,10 @@ export class GA4Analytics {
       this.isInitialized = true;
 
       if (GA4_CONFIG.debugMode) {
-        console.log('[GA4] Initialized successfully for service:', this.serviceName);
+        console.log("[GA4] Initialized successfully for service:", this.serviceName);
       }
     } catch (error) {
-      console.error('[GA4] Initialization failed:', error);
+      console.error("[GA4] Initialization failed:", error);
     }
   }
 
@@ -101,12 +101,12 @@ export class GA4Analytics {
         return;
       }
 
-      const script = document.createElement('script');
+      const script = document.createElement("script");
       script.async = true;
       script.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_CONFIG.measurementId}`;
 
       script.onload = () => resolve();
-      script.onerror = () => reject(new Error('Failed to load Google Tag'));
+      script.onerror = () => reject(new Error("Failed to load Google Tag"));
 
       document.head.appendChild(script);
     });
@@ -119,29 +119,29 @@ export class GA4Analytics {
       page_title: document.title,
       page_location: window.location.href,
       [GA4_CUSTOM_DIMENSIONS.SERVICE_NAME]: this.serviceName,
-      [GA4_CUSTOM_DIMENSIONS.PAGE_TYPE]: this.serviceName === 'main' ? 'home' : 'service',
+      [GA4_CUSTOM_DIMENSIONS.PAGE_TYPE]: this.serviceName === "main" ? "home" : "service",
       ...customProps,
     };
 
-    window.gtag('event', GA4_EVENTS.PAGE_VIEW, pageData);
+    window.gtag("event", GA4_EVENTS.PAGE_VIEW, pageData);
 
     if (GA4_CONFIG.debugMode) {
-      console.log('[GA4] Page view tracked:', pageData);
+      console.log("[GA4] Page view tracked:", pageData);
     }
   }
 
   public trackServiceEnter(): void {
-    if (!this.isInitialized || !GA4_CONFIG.enabled || this.serviceName === 'main') return;
+    if (!this.isInitialized || !GA4_CONFIG.enabled || this.serviceName === "main") return;
 
     const eventData = {
       [GA4_CUSTOM_DIMENSIONS.SERVICE_NAME]: this.serviceName,
       value: 1,
     };
 
-    window.gtag('event', GA4_EVENTS.SERVICE_ENTER, eventData);
+    window.gtag("event", GA4_EVENTS.SERVICE_ENTER, eventData);
 
     if (GA4_CONFIG.debugMode) {
-      console.log('[GA4] Service enter tracked:', eventData);
+      console.log("[GA4] Service enter tracked:", eventData);
     }
   }
 
@@ -153,7 +153,7 @@ export class GA4Analytics {
       ...parameters,
     };
 
-    window.gtag('event', eventName, eventData);
+    window.gtag("event", eventName, eventData);
 
     if (GA4_CONFIG.debugMode) {
       console.log(`[GA4] Event tracked: ${eventName}`, eventData);
@@ -167,7 +167,7 @@ export class GA4Analytics {
     });
   }
 
-  public trackNavigation(destination: string, method = 'click'): void {
+  public trackNavigation(destination: string, method = "click"): void {
     this.trackEvent(GA4_EVENTS.NAVIGATION_CLICK, {
       destination,
       method,
@@ -176,8 +176,8 @@ export class GA4Analytics {
 
   public trackError(error: Error | string, context?: string): void {
     const errorData = {
-      error_message: typeof error === 'string' ? error : error.message,
-      error_context: context || 'unknown',
+      error_message: typeof error === "string" ? error : error.message,
+      error_context: context || "unknown",
       error_service: this.serviceName,
     };
 
@@ -191,17 +191,17 @@ export class GA4Analytics {
 }
 
 // 자동 초기화 (DOM 로드 시)
-document.addEventListener('DOMContentLoaded', (): void => {
+document.addEventListener("DOMContentLoaded", (): void => {
   const analytics = GA4Analytics.getInstance();
   analytics.init().catch((error) => {
-    console.error('[GA4] Auto-initialization failed:', error);
+    console.error("[GA4] Auto-initialization failed:", error);
   });
 });
 
 // 페이지 언로드 시 서비스 종료 추적
-window.addEventListener('beforeunload', (): void => {
+window.addEventListener("beforeunload", (): void => {
   const analytics = GA4Analytics.getInstance();
-  if (analytics.getServiceName() !== 'main') {
+  if (analytics.getServiceName() !== "main") {
     analytics.trackEvent(GA4_EVENTS.SERVICE_EXIT, {
       [GA4_CUSTOM_DIMENSIONS.SERVICE_NAME]: analytics.getServiceName(),
     });
