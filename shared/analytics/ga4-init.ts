@@ -4,7 +4,7 @@ import { GA4_CONFIG, GA4_CUSTOM_DIMENSIONS, GA4_EVENTS } from './ga4-config.js';
 type GtagArgs = [
   command: 'js' | 'config' | 'event',
   targetId?: string | Date,
-  config?: Record<string, unknown>
+  config?: Record<string, unknown>,
 ];
 
 declare global {
@@ -18,7 +18,7 @@ export class GA4Analytics {
   private static instance: GA4Analytics;
   private isInitialized = false;
   private serviceName: string;
-  
+
   private constructor() {
     // 현재 경로에서 서비스명 자동 감지
     this.serviceName = this.detectServiceName();
@@ -33,12 +33,12 @@ export class GA4Analytics {
 
   private detectServiceName(): string {
     const path = window.location.pathname;
-    
+
     // 메인 페이지인 경우
     if (path === '/' || path === '/index.html') {
       return 'main';
     }
-    
+
     // 서비스 페이지인 경우 (/service-name/ 형태)
     const matches = path.match(/^\/([^\/]+)\/?/);
     return matches ? matches[1] : 'unknown';
@@ -59,7 +59,7 @@ export class GA4Analytics {
     try {
       // Google Tag 스크립트 동적 로드
       await this.loadGoogleTag();
-      
+
       // dataLayer 초기화
       window.dataLayer = window.dataLayer || [];
       window.gtag = (...args: GtagArgs): void => {
@@ -79,12 +79,12 @@ export class GA4Analytics {
 
       // 초기 페이지뷰 전송
       this.trackPageView();
-      
+
       // 서비스 진입 이벤트
       this.trackServiceEnter();
 
       this.isInitialized = true;
-      
+
       if (GA4_CONFIG.debugMode) {
         console.log('[GA4] Initialized successfully for service:', this.serviceName);
       }
@@ -104,10 +104,10 @@ export class GA4Analytics {
       const script = document.createElement('script');
       script.async = true;
       script.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_CONFIG.measurementId}`;
-      
+
       script.onload = () => resolve();
       script.onerror = () => reject(new Error('Failed to load Google Tag'));
-      
+
       document.head.appendChild(script);
     });
   }
@@ -124,7 +124,7 @@ export class GA4Analytics {
     };
 
     window.gtag('event', GA4_EVENTS.PAGE_VIEW, pageData);
-    
+
     if (GA4_CONFIG.debugMode) {
       console.log('[GA4] Page view tracked:', pageData);
     }
@@ -139,7 +139,7 @@ export class GA4Analytics {
     };
 
     window.gtag('event', GA4_EVENTS.SERVICE_ENTER, eventData);
-    
+
     if (GA4_CONFIG.debugMode) {
       console.log('[GA4] Service enter tracked:', eventData);
     }
@@ -154,7 +154,7 @@ export class GA4Analytics {
     };
 
     window.gtag('event', eventName, eventData);
-    
+
     if (GA4_CONFIG.debugMode) {
       console.log(`[GA4] Event tracked: ${eventName}`, eventData);
     }

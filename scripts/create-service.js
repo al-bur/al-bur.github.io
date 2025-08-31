@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 
-const fs = require("fs-extra");
-const path = require("node:path");
+const fs = require('fs-extra');
+const path = require('node:path');
 
 async function createService() {
   const serviceName = process.argv[2];
 
   if (!serviceName) {
-    console.error("서비스 이름을 입력해주세요.");
-    console.log("사용법: pnpm create-service <service-name>");
+    console.error('서비스 이름을 입력해주세요.');
+    console.log('사용법: pnpm create-service <service-name>');
     process.exit(1);
   }
 
-  const serviceDir = path.join("services", serviceName);
-  const distDir = path.join("dist", serviceName);
+  const serviceDir = path.join('services', serviceName);
+  const distDir = path.join('dist', serviceName);
 
   // 서비스 디렉토리가 이미 존재하는지 확인
   if (await fs.pathExists(serviceDir)) {
@@ -24,45 +24,45 @@ async function createService() {
   try {
     // 서비스 디렉토리 생성
     await fs.ensureDir(serviceDir);
-    await fs.ensureDir(path.join(serviceDir, "src"));
-    await fs.ensureDir(path.join(serviceDir, "public"));
+    await fs.ensureDir(path.join(serviceDir, 'src'));
+    await fs.ensureDir(path.join(serviceDir, 'public'));
 
     // package.json 생성
     const packageJson = {
       name: `@al-bur/${serviceName}`,
-      version: "1.0.0",
+      version: '1.0.0',
       private: true,
       scripts: {
-        dev: "node ../scripts/dev-server.js",
-        build: "node ../scripts/build-service.js",
+        dev: 'node ../scripts/dev-server.js',
+        build: 'node ../scripts/build-service.js',
         serve: `http-server ../../dist/${serviceName} -p 8080 -o`,
-        lint: "biome lint ./src",
-        "lint:fix": "biome lint --write ./src",
-        format: "biome format ./src",
-        "format:write": "biome format --write ./src",
-        "type-check": "tsc --noEmit",
+        lint: 'biome lint ./src',
+        'lint:fix': 'biome lint --write ./src',
+        format: 'biome format ./src',
+        'format:write': 'biome format --write ./src',
+        'type-check': 'tsc --noEmit',
       },
       devDependencies: {
-        "http-server": "^14.1.1",
+        'http-server': '^14.1.1',
       },
     };
 
-    await fs.writeJson(path.join(serviceDir, "package.json"), packageJson, {
+    await fs.writeJson(path.join(serviceDir, 'package.json'), packageJson, {
       spaces: 2,
     });
 
     // tsconfig.json 생성 (루트 설정을 확장)
     const tsConfig = {
-      extends: "../../tsconfig.base.json",
+      extends: '../../tsconfig.base.json',
       compilerOptions: {
         outDir: `../../dist/${serviceName}`,
-        rootDir: "./src",
+        rootDir: './src',
       },
-      include: ["src/**/*"],
-      exclude: ["node_modules", "dist"],
+      include: ['src/**/*'],
+      exclude: ['node_modules', 'dist'],
     };
 
-    await fs.writeJson(path.join(serviceDir, "tsconfig.json"), tsConfig, {
+    await fs.writeJson(path.join(serviceDir, 'tsconfig.json'), tsConfig, {
       spaces: 2,
     });
 
@@ -227,21 +227,18 @@ document.addEventListener('DOMContentLoaded', function(): void {
 });`;
 
     // 파일들 생성
-    await fs.writeFile(
-      path.join(serviceDir, "src", "index.html"),
-      htmlTemplate
-    );
-    await fs.writeFile(path.join(serviceDir, "src", "style.css"), cssTemplate);
-    await fs.writeFile(path.join(serviceDir, "src", "script.ts"), tsTemplate);
+    await fs.writeFile(path.join(serviceDir, 'src', 'index.html'), htmlTemplate);
+    await fs.writeFile(path.join(serviceDir, 'src', 'style.css'), cssTemplate);
+    await fs.writeFile(path.join(serviceDir, 'src', 'script.ts'), tsTemplate);
 
     console.log(`✅ 서비스 '${serviceName}'이 성공적으로 생성되었습니다!`);
     console.log(`📁 위치: ${serviceDir}`);
-    console.log("");
-    console.log("다음 명령어로 개발을 시작할 수 있습니다:");
+    console.log('');
+    console.log('다음 명령어로 개발을 시작할 수 있습니다:');
     console.log(`  pnpm --filter @al-bur/${serviceName} dev`);
     console.log(`  pnpm --filter @al-bur/${serviceName} build`);
   } catch (error) {
-    console.error("서비스 생성 중 오류가 발생했습니다:", error.message);
+    console.error('서비스 생성 중 오류가 발생했습니다:', error.message);
     process.exit(1);
   }
 }

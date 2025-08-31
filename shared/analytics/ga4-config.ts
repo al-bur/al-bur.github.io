@@ -8,13 +8,14 @@ export interface GA4Config {
 
 export const GA4_CONFIG: GA4Config = {
   measurementId: 'G-SMD74FQLV1',
-  enabled: typeof window !== 'undefined' && 
-           window.location.hostname !== 'localhost' && 
-           window.location.hostname !== '127.0.0.1' &&
-           !window.location.hostname.includes('github.dev'),
-  debugMode: typeof window !== 'undefined' && 
-             (window.location.hostname === 'localhost' || 
-              window.location.search.includes('debug=true')),
+  enabled:
+    typeof window !== 'undefined' &&
+    window.location.hostname !== 'localhost' &&
+    window.location.hostname !== '127.0.0.1' &&
+    !window.location.hostname.includes('github.dev'),
+  debugMode:
+    typeof window !== 'undefined' &&
+    (window.location.hostname === 'localhost' || window.location.search.includes('debug=true')),
 };
 
 // Custom dimensions for service tracking

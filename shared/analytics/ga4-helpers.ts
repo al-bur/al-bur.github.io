@@ -8,26 +8,25 @@ const analytics = GA4Analytics.getInstance();
 export function setupAutoTracking(): void {
   // 기능 카드 자동 추적
   trackFeatureCards();
-  
+
   // 네비게이션 링크 자동 추적
   trackNavigationLinks();
-  
+
   // 버튼 클릭 자동 추적
   trackButtons();
-  
+
   // 폼 제출 자동 추적
   trackForms();
 }
 
 function trackFeatureCards(): void {
   const featureCards = document.querySelectorAll<HTMLElement>('.feature-card, [data-feature]');
-  
+
   featureCards.forEach((card: HTMLElement, index: number) => {
     card.addEventListener('click', (): void => {
-      const featureName = card.dataset.feature || 
-                         card.querySelector('h3')?.textContent || 
-                         `feature-${index + 1}`;
-      
+      const featureName =
+        card.dataset.feature || card.querySelector('h3')?.textContent || `feature-${index + 1}`;
+
       analytics.trackFeatureClick(featureName, {
         position: index + 1,
         card_type: 'feature-card',
@@ -38,14 +37,14 @@ function trackFeatureCards(): void {
 
 function trackNavigationLinks(): void {
   const navLinks = document.querySelectorAll<HTMLAnchorElement>('nav a, .nav a, [data-nav]');
-  
+
   navLinks.forEach((link: HTMLAnchorElement) => {
     link.addEventListener('click', (): void => {
       const destination = link.href;
       const linkText = link.textContent?.trim() || 'unknown';
-      
+
       analytics.trackNavigation(destination, 'click');
-      
+
       // 외부 링크 추적
       if (destination.startsWith('http') && !destination.includes(window.location.hostname)) {
         analytics.trackEvent('external_link_click', {
@@ -59,13 +58,13 @@ function trackNavigationLinks(): void {
 
 function trackButtons(): void {
   const buttons = document.querySelectorAll<HTMLButtonElement>('button, [role="button"], .btn');
-  
+
   buttons.forEach((button: HTMLElement) => {
     button.addEventListener('click', (): void => {
       const buttonText = button.textContent?.trim() || 'unknown';
       const buttonId = button.id || undefined;
       const buttonClass = button.className || undefined;
-      
+
       analytics.trackEvent('button_click', {
         button_text: buttonText,
         button_id: buttonId,
@@ -77,12 +76,12 @@ function trackButtons(): void {
 
 function trackForms(): void {
   const forms = document.querySelectorAll<HTMLFormElement>('form');
-  
+
   forms.forEach((form: HTMLFormElement) => {
     form.addEventListener('submit', (event: SubmitEvent): void => {
       const formId = form.id || 'unnamed-form';
       const formAction = form.action || window.location.href;
-      
+
       analytics.trackEvent('form_submit', {
         form_id: formId,
         form_action: formAction,
@@ -131,12 +130,16 @@ export function trackPerformance(): void {
 
   window.addEventListener('load', (): void => {
     // 페이지 로드 시간 측정
-    const navigationTiming = window.performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
-    
+    const navigationTiming = window.performance.getEntriesByType(
+      'navigation'
+    )[0] as PerformanceNavigationTiming;
+
     if (navigationTiming) {
       analytics.trackEvent('page_performance', {
         load_time: Math.round(navigationTiming.loadEventEnd - navigationTiming.fetchStart),
-        dom_content_loaded: Math.round(navigationTiming.domContentLoadedEventEnd - navigationTiming.fetchStart),
+        dom_content_loaded: Math.round(
+          navigationTiming.domContentLoadedEventEnd - navigationTiming.fetchStart
+        ),
         first_byte: Math.round(navigationTiming.responseStart - navigationTiming.fetchStart),
       });
     }
