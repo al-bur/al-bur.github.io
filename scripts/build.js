@@ -1,21 +1,21 @@
 #!/usr/bin/env node
 
-const fs = require('fs-extra');
-const path = require('node:path');
-const { execSync } = require('node:child_process');
+const fs = require("fs-extra");
+const path = require("node:path");
+const { execSync } = require("node:child_process");
 
 async function buildAll() {
-  const servicesDir = path.join(process.cwd(), 'services');
-  const distDir = path.join(process.cwd(), 'dist');
+  const servicesDir = path.join(process.cwd(), "services");
+  const distDir = path.join(process.cwd(), "dist");
 
   try {
     // dist 디렉토리 정리
     await fs.emptyDir(distDir);
-    console.log('🧹 dist 디렉토리를 정리했습니다.');
+    console.log("🧹 dist 디렉토리를 정리했습니다.");
 
     // shared 폴더 먼저 빌드
     await buildSharedFolder();
-    console.log('✅ 공유 폴더 빌드 완료');
+    console.log("✅ 공유 폴더 빌드 완료");
 
     // services 디렉토리에서 모든 서비스 찾기
     const services = await fs.readdir(servicesDir);
@@ -35,19 +35,19 @@ async function buildAll() {
 
     // 메인 index.html 생성
     await createMainPage(services);
-    console.log('✅ 메인 페이지 생성 완료');
+    console.log("✅ 메인 페이지 생성 완료");
 
-    console.log('🎉 모든 서비스 빌드가 완료되었습니다!');
+    console.log("🎉 모든 서비스 빌드가 완료되었습니다!");
   } catch (error) {
-    console.error('빌드 중 오류가 발생했습니다:', error.message);
+    console.error("빌드 중 오류가 발생했습니다:", error.message);
     process.exit(1);
   }
 }
 
 async function buildService(serviceName) {
-  const serviceDir = path.join('services', serviceName, 'src');
-  const outputDir = path.join('dist', serviceName);
-  const tsConfigPath = path.join('services', serviceName, 'tsconfig.json');
+  const serviceDir = path.join("services", serviceName, "src");
+  const outputDir = path.join("dist", serviceName);
+  const tsConfigPath = path.join("services", serviceName, "tsconfig.json");
 
   // 출력 디렉토리 생성
   await fs.ensureDir(outputDir);
@@ -61,7 +61,7 @@ async function buildService(serviceName) {
       try {
         // TypeScript 컴파일
         execSync(`npx tsc -p services/${serviceName}/tsconfig.json`, {
-          stdio: 'inherit',
+          stdio: "inherit",
           cwd: process.cwd(),
         });
 
@@ -77,9 +77,9 @@ async function buildService(serviceName) {
     }
 
     // shared 폴더를 각 서비스에 복사 (빌드 완료 후)
-    const distSharedDir = path.join(process.cwd(), 'dist', 'shared');
+    const distSharedDir = path.join(process.cwd(), "dist", "shared");
     if (await fs.pathExists(distSharedDir)) {
-      const serviceSharedDir = path.join(outputDir, 'shared');
+      const serviceSharedDir = path.join(outputDir, "shared");
       await fs.copy(distSharedDir, serviceSharedDir);
     }
   } else {
@@ -89,12 +89,12 @@ async function buildService(serviceName) {
 
 async function checkForTsFiles(dir) {
   const files = await fs.readdir(dir);
-  
+
   // 바로 하위 파일 확인
-  if (files.some((file) => file.endsWith('.ts') || file.endsWith('.tsx'))) {
+  if (files.some((file) => file.endsWith(".ts") || file.endsWith(".tsx"))) {
     return true;
   }
-  
+
   // 하위 디렉토리에서 TypeScript 파일 찾기
   for (const file of files) {
     const filePath = path.join(dir, file);
@@ -105,7 +105,7 @@ async function checkForTsFiles(dir) {
       }
     }
   }
-  
+
   return false;
 }
 
@@ -120,15 +120,15 @@ async function copyNonTsFiles(sourceDir, outputDir) {
     if (stat.isDirectory()) {
       await fs.ensureDir(outputPath);
       await copyNonTsFiles(sourcePath, outputPath);
-    } else if (!file.endsWith('.ts') && !file.endsWith('.tsx')) {
+    } else if (!file.endsWith(".ts") && !file.endsWith(".tsx")) {
       await fs.copy(sourcePath, outputPath);
     }
   }
 }
 
 async function buildSharedFolder() {
-  const sharedDir = path.join(process.cwd(), 'shared');
-  const sharedOutputDir = path.join(process.cwd(), 'dist', 'shared');
+  const sharedDir = path.join(process.cwd(), "shared");
+  const sharedOutputDir = path.join(process.cwd(), "dist", "shared");
 
   if (await fs.pathExists(sharedDir)) {
     await fs.ensureDir(sharedOutputDir);
@@ -138,14 +138,14 @@ async function buildSharedFolder() {
     if (hasSharedTsFiles) {
       try {
         // shared 폴더의 TypeScript 컴파일 (tsconfig.json에서 outDir이 이미 설정됨)
-        execSync('npx tsc -p shared/tsconfig.json', {
-          stdio: 'inherit',
+        execSync("npx tsc -p shared/tsconfig.json", {
+          stdio: "inherit",
           cwd: process.cwd(),
         });
-        
+
         // TypeScript 컴파일 완료
       } catch (error) {
-        console.warn('⚠️  shared 폴더 TypeScript 컴파일 실패');
+        console.warn("⚠️  shared 폴더 TypeScript 컴파일 실패");
         throw error;
       }
     }
@@ -153,8 +153,8 @@ async function buildSharedFolder() {
 }
 
 async function copySharedFiles(outputDir) {
-  const distSharedDir = path.join(process.cwd(), 'dist', 'shared');
-  const serviceSharedDir = path.join(outputDir, 'shared');
+  const distSharedDir = path.join(process.cwd(), "dist", "shared");
+  const serviceSharedDir = path.join(outputDir, "shared");
 
   // 이미 빌드된 shared 폴더를 각 서비스에 복사
   if (await fs.pathExists(distSharedDir)) {
@@ -305,7 +305,7 @@ async function createMainPage(services) {
             </div>
             `
               )
-              .join('')}
+              .join("")}
             
             ${
               services.length === 0
@@ -318,7 +318,7 @@ async function createMainPage(services) {
                 </code>
             </div>
             `
-                : ''
+                : ""
             }
         </main>
 
@@ -366,7 +366,7 @@ async function createMainPage(services) {
 </body>
 </html>`;
 
-  await fs.writeFile(path.join('dist', 'index.html'), mainHtml);
+  await fs.writeFile(path.join("dist", "index.html"), mainHtml);
 }
 
 // 특정 서비스만 빌드하는 경우
