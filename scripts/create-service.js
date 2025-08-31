@@ -150,9 +150,6 @@ async function createService() {
     </script>
 </head>
 <body>
-    <!-- Skip to main content for accessibility -->
-    <a href="#main-content" class="sr-only">Skip to main content</a>
-    
     <nav class="nav" role="navigation">
         <a href="../" class="nav-home" aria-label="Go back to Al-bur Services homepage">← Home</a>
         <h1>${serviceTitle}</h1>
@@ -249,18 +246,6 @@ body {
     min-height: 100vh;
 }
 
-/* Accessibility - Screen Reader Only */
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
 
 /* Focus Styles for Accessibility */
 *:focus {

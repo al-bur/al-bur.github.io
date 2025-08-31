@@ -518,9 +518,6 @@ async function createMainPage(services) {
     </style>
 </head>
 <body>
-    <!-- Skip to main content for accessibility -->
-    <a href="#main-content" class="sr-only">Skip to main content</a>
-    
     <div class="container">
         <header class="header">
             <h1>🚀 Al-bur Services</h1>
